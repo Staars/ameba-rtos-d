@@ -31,6 +31,7 @@ AMAZON_FREERTOS_INCLUDE  = $(AMAZON_FREERTOS_BUILDDIR)/Makefile.include.aws
 endif
 
 TARGETDIR	=$(BASEDIR)/component/soc/realtek/amebad
+include $(TARGETDIR)/swlib/string/amebad_log_level.mk
 BOOTLOADER	=$(BASEDIR)/component/soc/realtek/amebad/bootloader
 UTILITYDIR	= $(ROOTDIR)/gnu_utility
 FLASHDLDIR	= $(UTILITYDIR)/flash_download
@@ -419,6 +420,7 @@ GLOBAL_CFLAGS += -MMD -MP
 GLOBAL_CFLAGS += -Wextra
 
 GLOBAL_CFLAGS += $(IFLAGS)
+GLOBAL_CFLAGS += $(AMEBAD_LOG_LEVEL_CFLAGS)
 GLOBAL_CFLAGS += -DCONFIG_PLATFORM_8721D
 GLOBAL_CFLAGS += -DCONFIG_USE_MBEDTLS_ROM_ALG
 GLOBAL_CFLAGS += -DCONFIG_FUNCION_O0_OPTIMIZE
@@ -615,14 +617,14 @@ endef
 #              RULES TO GENERATE OBJECT FILE FROM .C FILE                     #
 #*****************************************************************************#
 
-%.o:%.c
+%.o:%.c $(AMEBAD_LOG_LEVEL_HEADER)
 	$(CC) $(GLOBAL_CFLAGS) $(MODULE_IFLAGS) $<  -o $@
 
 #*****************************************************************************#
 #              RULES TO GENERATE OBJECT FILE FROM .CPP FILE                   #
 #*****************************************************************************#
-%.o:%.cpp
-	$(CC) -ffunction-sections $(CPPFLAGS) $(MODULE_IFLAGS) $< -o $@
+%.o:%.cpp $(AMEBAD_LOG_LEVEL_HEADER)
+	$(CC) -ffunction-sections $(CPPFLAGS) $(AMEBAD_LOG_LEVEL_CFLAGS) $(MODULE_IFLAGS) $< -o $@
 
 #*****************************************************************************#
 #              RULES TO GENERATE OBJECT FILE FROM .S FILE                     #

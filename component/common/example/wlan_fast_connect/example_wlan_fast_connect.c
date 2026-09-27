@@ -20,6 +20,7 @@
 #include "device_lock.h"
 #include "netif.h"
 #include <lwip_netconf.h>
+#include "diag.h"
 
 extern struct netif xnetif[NET_IF_NUM];
 extern u32 g_reconnect_delay;
@@ -62,9 +63,9 @@ int wlan_write_reconnect_data_to_flash(u8 *data, uint32_t len)
 	//wirte it to flash if different content: SSID, Passphrase, Channel, Security type
 	if(memcmp(data, (u8 *) &read_data, sizeof(struct wlan_fast_reconnect)) != 0) {
 #if defined(CONFIG_FAST_DHCP) && CONFIG_FAST_DHCP
-		printf("\r\n %s():not the same ssid/passphrase/channel/offer_ip, write new profile to flash", __func__);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\n %s():not the same ssid/passphrase/channel/offer_ip, write new profile to flash", __func__);
 #else
-		printf("\r\n %s():not the same ssid/passphrase/channel, write new profile to flash", __func__);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\n %s():not the same ssid/passphrase/channel, write new profile to flash", __func__);
 #endif
 	    flash_erase_sector(&flash, FAST_RECONNECT_DATA);
 	    flash_stream_write(&flash, FAST_RECONNECT_DATA, len, (uint8_t *) data);
@@ -120,7 +121,7 @@ int wlan_init_done_callback(void)
 		if(empty_data){
 			memset(empty_data, 0xff, sizeof(struct wlan_fast_reconnect));
 			if(memcmp(empty_data, data, sizeof(struct wlan_fast_reconnect)) == 0){
-				printf("[FAST_CONNECT] Fast connect profile is empty, abort fast connection\n");
+				DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "[FAST_CONNECT] Fast connect profile is empty, abort fast connection\n");
 				free(data);
 				free(empty_data);
 				return 0;
@@ -207,7 +208,7 @@ WIFI_RETRY_LOOP:
 					vTaskDelay(g_reconnect_delay);
 					g_reconnect_delay = 0;
 				}
-				printf("wifi retry\r\n");
+				DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "wifi retry\r\n");
 				goto WIFI_RETRY_LOOP;
 			}
 		}

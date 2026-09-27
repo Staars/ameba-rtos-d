@@ -13,6 +13,7 @@
 
 #include "main.h"
 #include "main_test.h"
+#include "diag.h"
 #if CONFIG_WLAN
 #include "wifi_conf.h"
 #include "wlan_intf.h"
@@ -55,7 +56,7 @@ void init_thread(void *param)
 	//setup reconnection flag
 	wifi_set_autoreconnect(1);
 #endif
-	printf("\n\r%s(%d), Available heap 0x%x", __FUNCTION__, __LINE__, xPortGetFreeHeapSize());	
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\r%s(%d), Available heap 0x%x", __FUNCTION__, __LINE__, xPortGetFreeHeapSize());
 #endif
 
 #if CONFIG_INTERACTIVE_MODE
@@ -71,6 +72,7 @@ void init_thread(void *param)
 
 void wlan_network()
 {
-	if(xTaskCreate(init_thread, ((const char*)"init"), STACKSIZE, NULL, tskIDLE_PRIORITY + 3 + PRIORITIE_OFFSET, NULL) != pdPASS)
-		printf("\n\r%s xTaskCreate(init_thread) failed", __FUNCTION__);
+	if(xTaskCreate(init_thread, ((const char*)"init"), STACKSIZE, NULL, tskIDLE_PRIORITY + 3 + PRIORITIE_OFFSET, NULL) != pdPASS) {
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\r%s xTaskCreate(init_thread) failed", __FUNCTION__);
+	}
 }

@@ -62,6 +62,7 @@ typedef enum {
 	MODULE_IPC			= 26,
 	MODULE_KM4		= 27,
 	MODULE_USB_CLASS  = 28,
+	MODULE_WLAN		= 29, /**< WLAN API */
 
 	MODULE_NUMs		= 32 /**< Module Number */
 } MODULE_DEFINE;
@@ -74,6 +75,9 @@ typedef enum {
 	LEVEL_TRACE	= 3, /**< Trace Data */
 	LEVEL_NUMs		= 4  /**< Level Number */
 } LEVEL_DEFINE;
+#ifndef AMEBAD_LOG_LEVEL_MAX
+#define AMEBAD_LOG_LEVEL_MAX 3
+#endif
 /** End of Platform_Debug_Log_Trace_Exported_Types
   * @}
   */
@@ -122,19 +126,45 @@ extern u32 ConfigDebug[];
 } while (0)
 
 /**
-  * @brief  DBG_PRINTF is used to print log
+  * @brief  DBG_PRINTF is the severity-filtered SDK diagnostic logger.
   */
-//#define RELEASE_VERSION
+#define AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL, pFormat, ...) do {\
+	if ((MODULE) < MODULE_NUMs && (ConfigDebug[LEVEL] & BIT(MODULE)))\
+		DiagPrintf("["#MODULE"-"#LEVEL"]:"pFormat, ##__VA_ARGS__);\
+} while (0)
+
+#define AMEBAD_DBG_PRINTF_SELECT(LEVEL) AMEBAD_DBG_PRINTF_SELECT_INNER(LEVEL)
+#define AMEBAD_DBG_PRINTF_SELECT_INNER(LEVEL) AMEBAD_DBG_PRINTF_##LEVEL
+
 #ifdef RELEASE_VERSION
-#define DBG_PRINTF(MODULE, LEVEL, pFormat, ...)     do {\
-		if ((LEVEL < LEVEL_NUMs) && (MODULE < MODULE_NUMs) && (ConfigDebug[LEVEL] & BIT(MODULE))) {\
-		}\
-	}while(0)
+#define DBG_PRINTF(...) do { } while (0)
 #else
-#define DBG_PRINTF(MODULE, LEVEL, pFormat, ...)     do {\
-   if ((LEVEL < LEVEL_NUMs) && (MODULE < MODULE_NUMs) && (ConfigDebug[LEVEL] & BIT(MODULE)))\
-        DiagPrintf("["#MODULE"-"#LEVEL"]:"pFormat, ##__VA_ARGS__);\
-}while(0)
+#if AMEBAD_LOG_LEVEL_MAX >= 0
+#define AMEBAD_DBG_PRINTF_LEVEL_ERROR(MODULE, pFormat, ...) \
+	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_ERROR, pFormat, ##__VA_ARGS__)
+#else
+#define AMEBAD_DBG_PRINTF_LEVEL_ERROR(...)
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 1
+#define AMEBAD_DBG_PRINTF_LEVEL_WARN(MODULE, pFormat, ...) \
+	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_WARN, pFormat, ##__VA_ARGS__)
+#else
+#define AMEBAD_DBG_PRINTF_LEVEL_WARN(...)
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 2
+#define AMEBAD_DBG_PRINTF_LEVEL_INFO(MODULE, pFormat, ...) \
+	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_INFO, pFormat, ##__VA_ARGS__)
+#else
+#define AMEBAD_DBG_PRINTF_LEVEL_INFO(...)
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 3
+#define AMEBAD_DBG_PRINTF_LEVEL_TRACE(MODULE, pFormat, ...) \
+	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_TRACE, pFormat, ##__VA_ARGS__)
+#else
+#define AMEBAD_DBG_PRINTF_LEVEL_TRACE(...)
+#endif
+#define DBG_PRINTF(MODULE, LEVEL, pFormat, ...) \
+	AMEBAD_DBG_PRINTF_SELECT(LEVEL)(MODULE, pFormat, ##__VA_ARGS__)
 #endif
 
 #define DBG_ERR_MSG_ON(x)       (ConfigDebug[LEVEL_ERROR] |= BIT(x))
@@ -146,7 +176,7 @@ extern u32 ConfigDebug[];
 #define DBG_INFO_MSG_OFF(x)     (ConfigDebug[LEVEL_INFO] &= ~BIT(x))
 #define DRIVER_PREFIX	"RTL8721D[Driver]: "
 
-#ifdef CONFIG_DEBUG_LOG
+#if defined(CONFIG_DEBUG_LOG) && AMEBAD_LOG_LEVEL_MAX >= 3
 #define DBG_8195A(...)     do {\
     if (unlikely(ConfigDebug[LEVEL_ERROR] & BIT(MODULE_MISC))) \
         DiagPrintf("\r" __VA_ARGS__);\
@@ -157,7 +187,7 @@ extern u32 ConfigDebug[];
         DiagPrintf( __VA_ARGS__);\
 }while(0)
 
-#else   // else of "#if CONFIG_DEBUG_LOG"
+#else   // unranked ROM diagnostics are retained only at debug/verbose
 #define DBG_8195A(...)
 #define MONITOR_LOG(...)
 #endif

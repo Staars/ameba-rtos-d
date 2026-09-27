@@ -14,7 +14,7 @@ OBJS =
 # Define the Rules to build the core targets
 all: CORE_TARGETS
 	$(MAKE) -C asdk flashloader
-	$(MAKE) -C asdk bootloader
+	$(MAKE) -C asdk bootloader AMEBAD_LOG_LEVEL_MAX_OVERRIDE=-1
 ifeq ($(CONFIG_USER_CTRL_PS),y)
 	$(MAKE) -C asdk ucps_image2
 else
@@ -34,7 +34,7 @@ debug:
 xip: CORE_TARGETS
 	$(MAKE) -C asdk lib_all
 	$(MAKE) -C asdk flashloader
-	$(MAKE) -C asdk bootloader
+	$(MAKE) -C asdk bootloader AMEBAD_LOG_LEVEL_MAX_OVERRIDE=-1
 ifeq ($(CONFIG_USER_CTRL_PS),y)
 	$(MAKE) -C asdk ucps_image2
 else
@@ -88,4 +88,3 @@ swdpwd: CORE_TARGETS
 #              GENERATE OBJECT FILE 
 #*****************************************************************************#
 CORE_TARGETS: $(OBJS)
-

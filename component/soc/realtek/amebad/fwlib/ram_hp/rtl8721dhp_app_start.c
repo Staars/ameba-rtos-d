@@ -383,14 +383,20 @@ static void app_driver_call_os_func_init(void)
 
 void app_init_debug(void)
 {
-	u32 debug[4];
+	u32 debug[4] = {0};
 
-	debug[LEVEL_ERROR] = BIT(MODULE_BOOT);
-	debug[LEVEL_WARN]  = 0x0;
-	debug[LEVEL_INFO]  = BIT(MODULE_BOOT);
-	debug[LEVEL_TRACE] = 0x0;
-
+#if AMEBAD_LOG_LEVEL_MAX >= 0
 	debug[LEVEL_ERROR] = 0xFFFFFFFF;
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 1
+	debug[LEVEL_WARN] = 0xFFFFFFFF;
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 2
+	debug[LEVEL_INFO] = 0xFFFFFFFF;
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 3
+	debug[LEVEL_TRACE] = 0xFFFFFFFF;
+#endif
 
 	LOG_MASK(LEVEL_ERROR, debug[LEVEL_ERROR]);
 	LOG_MASK(LEVEL_WARN, debug[LEVEL_WARN]);
@@ -401,9 +407,6 @@ void app_init_debug(void)
 // The Main App entry point
 void app_start(void)
 {
-#ifndef CONFIG_DEBUG_LOG
-	ConfigDebugClose = 1;
-#endif
 	//cmse_address_info_t cmse_address_info = cmse_TT((void *)DiagPrintf);
 
 	irq_table_init(MSP_RAM_HP_NS); /* NS Vector table init */
@@ -411,12 +414,6 @@ void app_start(void)
 
 	app_section_init();
 	_memset((void *) __bss_start__, 0, (__bss_end__ - __bss_start__));
-
-#ifdef CONFIG_DEBUG_LOG
-	ConfigDebugClose = 0;
-#else
-	ConfigDebugClose = 1;
-#endif
 
 #if defined (configENABLE_TRUSTZONE) && (configENABLE_TRUSTZONE == 1U)
 	BOOT_IMG3();

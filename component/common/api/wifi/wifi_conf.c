@@ -8,6 +8,7 @@
 #include "tcpip.h"
 #endif
 #include <platform/platform_stdlib.h>
+#include "diag.h"
 #include <wifi/wifi_conf.h>
 #include <wifi/wifi_util.h>
 #include <wifi/wifi_ind.h>
@@ -256,7 +257,7 @@ static int wifi_connect_local(rtw_network_info_t *pWifi)
 			break;
 		default:
 			ret = -1;
-			RTW_API_INFO("\n\rWIFICONF: security type(0x%x) is not supported.\n\r", pWifi->security_type);
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rWIFICONF: security type(0x%x) is not supported.\n\r", pWifi->security_type);
 			break;
 	}
 	if(ret == 0)
@@ -317,7 +318,7 @@ static int wifi_connect_bssid_local(rtw_network_info_t *pWifi)
 			break;
 		default:
 			ret = -1;
-			RTW_API_INFO("\n\rWIFICONF: security type(0x%x) is not supported.\n\r", pWifi->security_type);
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rWIFICONF: security type(0x%x) is not supported.\n\r", pWifi->security_type);
 			break;
 	}
 	if(ret == 0){
@@ -440,7 +441,7 @@ static void wifi_rx_mgnt_hdl(char *buf, int buf_len, int flags, void *userdata)
 		status_code = (u16)(*(u16 *)(buf + 24 + 2));
 		if (rtw_join_status == JOIN_CONNECTING && status_code != 0) {
 			sta_conn_status.assoc_code = status_code;
-			printf("Recv AssocRsp with status_code=%d\n", status_code);
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Recv AssocRsp with status_code=%d\n", status_code);
 		}
 		break;
 	case 0xa0:
@@ -448,7 +449,7 @@ static void wifi_rx_mgnt_hdl(char *buf, int buf_len, int flags, void *userdata)
 		status_code = (u16)(*(u16 *)(buf + 24));
 		if (rtw_join_status == JOIN_CONNECTING && status_code != 0) {
 			sta_conn_status.disassoc_code = status_code;
-			printf("Recv Disassoc with status_code=%d\n", status_code);
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Recv Disassoc with status_code=%d\n", status_code);
 		}
 		break;
 	case 0xb0:
@@ -458,7 +459,7 @@ static void wifi_rx_mgnt_hdl(char *buf, int buf_len, int flags, void *userdata)
 			sta_conn_status.auth_alg = (u16)(*(u16 *)(buf + 24));
 			if (status_code != 0 || status_code != REASON_SAE_HASH_TO_ELEMENT) {
 				sta_conn_status.auth_code = status_code;
-				printf("Recv Auth with status_code=%d\n", status_code);
+				DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Recv Auth with status_code=%d\n", status_code);
 			}
 		}
 		break;
@@ -467,7 +468,7 @@ static void wifi_rx_mgnt_hdl(char *buf, int buf_len, int flags, void *userdata)
 		status_code = (u16)(*(u16 *)(buf + 24));
 		if (rtw_join_status == JOIN_CONNECTING && status_code != 0) {
 			sta_conn_status.disassoc_code = status_code;
-			printf("Recv Deauth with status_code=%d\n", status_code);
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Recv Deauth with status_code=%d\n", status_code);
 		}
 		break;
 	default:
@@ -488,69 +489,69 @@ static void wifi_link_err_parse(u16 reason_code)
 		//RTW_API_INFO("wifi link err:%08x\r\n", rltk_wlan_get_link_err());
 	}
 
-	RTW_API_INFO("dissconn reason code: %d\n", reason_code);
+	DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "dissconn reason code: %d\n", reason_code);
 
 	if(link_err & BIT(0)) {
-		printf("receive deauth\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "receive deauth\n");
 	} else if(link_err & BIT(1)) {
-		printf("receive deassoc\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "receive deassoc\n");
 	} else if (link_err & BIT(2)) {
-		printf("scan stage, no beacon while connecting\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "scan stage, no beacon while connecting\n");
 	} else if(link_err & BIT(3)) {
-		printf("auth stage, auth timeout\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "auth stage, auth timeout\n");
 		if(reason_code == REASON_STA_IN_BLACKLIST) {
-			printf("request has been declined\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "request has been declined\n");
 		}
 	} else if(link_err & BIT(4)) {
-		printf("assoc stage, assoc timeout\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "assoc stage, assoc timeout\n");
 	} else if(link_err & (BIT(5) | BIT(6) | BIT(7))) {
-		printf("4handshake stage, 4-way waiting timeout\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "4handshake stage, 4-way waiting timeout\n");
 	} else if(link_err & BIT(8)) {
-		printf("assoc stage, assoc reject (assoc rsp status > 0)\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "assoc stage, assoc reject (assoc rsp status > 0)\n");
 	} else if(link_err & BIT(9)) {
-		printf("auth stage, auth fail (auth rsp status > 0)\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "auth stage, auth fail (auth rsp status > 0)\n");
 	} else if(link_err & BIT(10)){
-		printf("scan stage, scan timeout\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "scan stage, scan timeout\n");
 	}
 #ifdef CONFIG_SAE_SUPPORT
 	else if (link_err & BIT(11)) {
-		printf("auth stage, WPA3 auth fail, ");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "auth stage, WPA3 auth fail, ");
 		if (reason_code == REASON_STA_IN_BLACKLIST) {
-			printf("request has been declined\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "request has been declined\n");
 		} else {
-			printf("password error\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "password error\n");
 		}
 	}
 #endif
 
 	if(link_err & (BIT(0) | BIT(1))) {
 		if(link_err & BIT(20)) {
-			printf("handshake done, connected stage, recv deauth/deassoc\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "handshake done, connected stage, recv deauth/deassoc\n");
 		} else if(link_err & BIT(19)) {
-			printf("handshake processing, 4handshake stage, recv deauth/deassoc\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "handshake processing, 4handshake stage, recv deauth/deassoc\n");
 		} else if(link_err & BIT(18)) {
-			printf("assoc successed, 4handshake stage, recv deauth/deassoc\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "assoc successed, 4handshake stage, recv deauth/deassoc\n");
 		} else if(link_err & BIT(17)) {
-			printf("auth successed, assoc stage, recv deauth/deassoc\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "auth successed, assoc stage, recv deauth/deassoc\n");
 		} else if(link_err & BIT(16)) {
-			printf("scan done, found ssid, auth stage, recv deauth/deassoc\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "scan done, found ssid, auth stage, recv deauth/deassoc\n");
 		} else {
-			printf("connected stage, recv deauth/deassoc\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "connected stage, recv deauth/deassoc\n");
 		}
 	}
 
 	switch(reason_code) {
 		case REASON_AP_UNABLE_TO_HANDLE_NEW_STA:
-			printf("auth stage, ap auth full\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "auth stage, ap auth full\n");
 			break;
 		case REASON_SA_QUERY_TIMEOUT:
-			printf("SA query timeout\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "SA query timeout\n");
 			break;
 		case REASON_AP_BEACON_CHANGED:
-			printf("connected stage, ap changed\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "connected stage, ap changed\n");
 			break;
 		case REASON_EXPIRATION_CHK:
-			printf("connected stage, loss beacon\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "connected stage, loss beacon\n");
 			break;
 		default:
 			break;
@@ -732,7 +733,7 @@ void restore_wifi_info_to_flash(void)
 
 	if(p_write_reconnect_ptr){
 		if(wifi_get_setting((const char*)ifname[0],&setting) || setting.mode == RTW_MODE_AP){
-			RTW_API_INFO("\r\n %s():wifi_get_setting fail or ap mode", __func__);
+			DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\n %s():wifi_get_setting fail or ap mode", __func__);
 			return;
 		}
 		channel = setting.channel;
@@ -874,7 +875,7 @@ static int _get_ap_security_mode(IN char * ssid, OUT rtw_security_t *security_mo
 	memset(&wifi, 0, sizeof(wifi));
 
 	if(wifi_scan_networks_with_ssid(_find_ap_from_scan_buf, (void*)&wifi, scan_buflen, ssid, strlen(ssid)) != RTW_SUCCESS){
-		printf("Wifi scan failed!\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Wifi scan failed!\n");
 		return 0;
 	}
 
@@ -908,7 +909,7 @@ int wifi_connect_simple(
 	connect_channel = channel;
 
 	if(ssid_len > 32) {
-		RTW_API_INFO("\n\rERROR:Bad Ssid Length");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR:Bad Ssid Length");
 		return RTW_BADSSIDLEN;
 	}
 
@@ -926,8 +927,8 @@ int wifi_connect_simple(
 				break;
 			security_retry_count++;
 			if(security_retry_count >= 3){
-				RTW_API_INFO("Can't get AP security mode and channel.\n");
-				RTW_API_INFO("Warning : unknow security type, default set to WPA2_AES\r\n");
+				DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Can't get AP security mode and channel.\n");
+				DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Warning : unknow security type, default set to WPA2_AES\r\n");
 				security_type = RTW_SECURITY_WPA2_AES_PSK;				
 				break;
 			}
@@ -948,8 +949,8 @@ int wifi_connect_simple(
 	
 	if(ret!= RTW_SUCCESS){
 		if(ret == RTW_INVALID_KEY)
-			RTW_API_INFO("\n\rERROR:Invalid Key ");		
-		RTW_API_INFO("\n\rERROR: Can't connect to AP");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR:Invalid Key ");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Can't connect to AP");
 		return ret;
 	}
 	//RTW_API_INFO("\r\nConnected after %dms.\n", (tick3-tick1));
@@ -973,7 +974,7 @@ int wifi_connect(
 
 	if(rtw_join_status & JOIN_CONNECTING){
 		if(wifi_disconnect() < 0){
-			RTW_API_INFO("\nwifi_disconnect Operation failed!");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\nwifi_disconnect Operation failed!");
 			return RTW_ERROR;
 		}
 		while(rtw_join_status & JOIN_CONNECTING){
@@ -1110,7 +1111,7 @@ int wifi_connect(
 #ifdef CONFIG_ENABLE_EAP
 		if(get_eap_phase()){
 			if(rtw_down_timeout_sema( &join_result->join_sema, 60000 ) == RTW_FALSE) {
-				RTW_API_INFO("RTW API: Join bss timeout\r\n");
+				DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "RTW API: Join bss timeout\r\n");
 				if(password_len) {
 					rtw_free(join_result->network_info.password);
 					join_result->network_info.password = NULL;
@@ -1127,7 +1128,7 @@ int wifi_connect(
 		else
 #endif
 		if(rtw_down_timeout_sema( &join_result->join_sema, RTW_JOIN_TIMEOUT ) == RTW_FALSE) {
-			RTW_API_INFO("RTW API: Join bss timeout\r\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "RTW API: Join bss timeout\r\n");
 			if(password_len) {
 				rtw_free(join_result->network_info.password);
 				join_result->network_info.password = NULL;
@@ -1200,7 +1201,7 @@ int wifi_connect_bssid(
 
 	if(rtw_join_status & JOIN_CONNECTING){
 		if(wifi_disconnect() < 0){
-			RTW_API_INFO("\nwifi_disconnect Operation failed!");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\nwifi_disconnect Operation failed!");
 			return RTW_ERROR;
 		}
 		while(rtw_join_status & JOIN_CONNECTING){
@@ -1328,7 +1329,7 @@ int wifi_connect_bssid(
 
 	if(semaphore == NULL) {
 		if(rtw_down_timeout_sema( &join_result->join_sema, RTW_JOIN_TIMEOUT ) == RTW_FALSE) {
-			RTW_API_INFO("RTW API: Join bss timeout\r\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "RTW API: Join bss timeout\r\n");
 			if(password_len) {
 				rtw_free(join_result->network_info.password);
 				join_result->network_info.password = NULL;
@@ -1393,7 +1394,7 @@ int wifi_disconnect(void)
 	const __u8 null_bssid[ETH_ALEN + 2] = {0, 0, 0, 0, 0, 1, 0, 0};
 
 	if (wext_set_bssid(WLAN0_NAME, null_bssid) < 0){
-		RTW_API_INFO("\n\rWEXT: Failed to set bogus BSSID to disconnect");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rWEXT: Failed to set bogus BSSID to disconnect");
 		ret = -1;
 	}
 	return ret;
@@ -1473,7 +1474,7 @@ int wifi_change_mac_address_from_ram(int idx, u8 *mac)
 	int ret_ps = 0;
 	const char * ifname = WLAN0_NAME;
 	if ((0 != idx) && (1 != idx)) {
-		RTW_API_INFO("\n\rInvalid interface selected");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rInvalid interface selected");
 		return RTW_ERROR;
 	}
 	if (1 == idx) {
@@ -1481,12 +1482,12 @@ int wifi_change_mac_address_from_ram(int idx, u8 *mac)
 	}
 	ret_ps = wext_disable_powersave(ifname);
 	if (RTW_SUCCESS != ret_ps) {
-		RTW_API_INFO("\n\rFailed to disable powersave");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rFailed to disable powersave");
 	}
 	ret = rltk_change_mac_address_from_ram(idx, mac);
 	ret_ps = wext_resume_powersave(ifname);
 	if (RTW_SUCCESS != ret_ps) {
-		RTW_API_INFO("\n\rFailed to resume powersave");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rFailed to resume powersave");
 	}
 	return ret;
 }
@@ -1526,13 +1527,13 @@ int wifi_get_interface_mac_address(int idx, char * mac)
 		ret = wext_private_command_with_retval(WLAN1_NAME, buf, buf, 32);
 		}
 		else {
-		RTW_API_INFO("\n\rInvalid interface selected");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rInvalid interface selected");
 		ret = RTW_ERROR;
 		return ret;
 		}
 	}
 	else {
-		RTW_API_INFO("\n\rInvalid interface selected");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rInvalid interface selected");
 		ret = RTW_ERROR;
 		return ret;
 	}
@@ -1874,7 +1875,7 @@ int wifi_on(rtw_mode_t mode)
 
 	device_mutex_lock(RT_DEV_LOCK_WLAN);
 	if(rltk_wlan_running(WLAN0_IDX)) {
-		RTW_API_INFO("\n\rWIFI is already running");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI is already running");
 		device_mutex_unlock(RT_DEV_LOCK_WLAN);
 		return 1;
 	}
@@ -1891,7 +1892,7 @@ int wifi_on(rtw_mode_t mode)
 
 	// set wifi mib
 	wifi_set_mib();
-	RTW_API_INFO("\n\rInitializing WIFI ...");
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rInitializing WIFI ...");
 	for(idx=0;idx<devnum;idx++){
 		ret = rltk_wlan_init(idx, mode);
 		if(ret <0){
@@ -1904,7 +1905,7 @@ int wifi_on(rtw_mode_t mode)
 		ret = rltk_wlan_start(idx);
 		if(ret == 0) _wifi_is_on = 1;
 		if(ret <0){
-			RTW_API_INFO("\n\rERROR: Start WIFI Failed!");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Start WIFI Failed!");
 			rltk_wlan_deinit();
 			wifi_mode = RTW_MODE_NONE;
 			device_mutex_unlock(RT_DEV_LOCK_WLAN);
@@ -1915,13 +1916,13 @@ int wifi_on(rtw_mode_t mode)
 
 	while(1) {
 		if(rltk_wlan_running(devnum-1)) {
-			RTW_API_INFO("\n\rWIFI initialized\n");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI initialized\n");
 			wifi_set_country_code();
 			break;
 		}
 
 		if(timeout == 0) {
-			RTW_API_INFO("\n\rERROR: Init WIFI timeout!");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Init WIFI timeout!");
 			break;
 		}
 
@@ -1960,7 +1961,7 @@ int wifi_off(void)
 
 	if((rltk_wlan_running(WLAN0_IDX) == 0) &&
 		(rltk_wlan_running(WLAN1_IDX) == 0)) {
-		RTW_API_INFO("\n\rWIFI is not running");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI is not running");
 		return 0;
 	}
 #if CONFIG_LWIP_LAYER
@@ -1977,7 +1978,7 @@ int wifi_off(void)
 	if((wifi_mode ==  RTW_MODE_AP) || (wifi_mode == RTW_MODE_STA_AP))
 		wpas_wps_deinit();
 #endif
-	RTW_API_INFO("\n\rDeinitializing WIFI ...");
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rDeinitializing WIFI ...");
 	device_mutex_lock(RT_DEV_LOCK_WLAN);
 	rltk_wlan_deinit();
 	_wifi_is_on = 0;
@@ -1986,12 +1987,12 @@ int wifi_off(void)
 	while(1) {
 		if((rltk_wlan_running(WLAN0_IDX) == 0) &&
 			(rltk_wlan_running(WLAN1_IDX) == 0)) {
-			RTW_API_INFO("\n\rWIFI deinitialized");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI deinitialized");
 			break;
 		}
 
 		if(timeout == 0) {
-			RTW_API_INFO("\n\rERROR: Deinit WIFI timeout!");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Deinit WIFI timeout!");
 			break;
 		}
 
@@ -2037,7 +2038,7 @@ int wifi_set_mode(rtw_mode_t mode)
 #endif
 
 	if (wifi_mode == mode) {
-		RTW_API_INFO("\n\r[%s] WIFI Mode No Need To Change",__FUNCTION__);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\r[%s] WIFI Mode No Need To Change",__FUNCTION__);
 		return 0;
 	}
 
@@ -2045,7 +2046,7 @@ int wifi_set_mode(rtw_mode_t mode)
 
 	if((rltk_wlan_running(WLAN0_IDX) == 0) &&
 		(rltk_wlan_running(WLAN1_IDX) == 0)) {
-		RTW_API_INFO("\n\r[%s] WIFI is not running",__FUNCTION__);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\r[%s] WIFI is not running",__FUNCTION__);
 		device_mutex_unlock(RT_DEV_LOCK_WLAN);
 		return -1;
 	}
@@ -2071,7 +2072,7 @@ int wifi_set_mode(rtw_mode_t mode)
 #endif
 
 	if((wifi_mode == RTW_MODE_STA) && (mode == RTW_MODE_AP)){
-		RTW_API_INFO("\n\r[%s] WIFI Mode Change: STA-->AP",__FUNCTION__);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\r[%s] WIFI Mode Change: STA-->AP",__FUNCTION__);
 
 		wifi_disconnect();
 		//must add this delay, because this API may have higher priority, wifi_disconnect will rely RTW_CMD task, may not be excuted immediately.	
@@ -2086,7 +2087,7 @@ int wifi_set_mode(rtw_mode_t mode)
 		wifi_set_pmk_cache_enable(0);
 #endif
 	}else if((wifi_mode == RTW_MODE_AP) && (mode ==RTW_MODE_STA)){
-		RTW_API_INFO("\n\r[%s] WIFI Mode Change: AP-->STA",__FUNCTION__);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\r[%s] WIFI Mode Change: AP-->STA",__FUNCTION__);
 
 		ret = wext_set_mode(WLAN0_NAME, RTW_MODE_INFRA);
 		if(ret < 0) goto Exit;
@@ -2102,21 +2103,21 @@ int wifi_set_mode(rtw_mode_t mode)
 		wifi_set_pmk_cache_enable(1);
 #endif
 	}else if ((wifi_mode == RTW_MODE_AP) && (mode == RTW_MODE_AP)){
-		RTW_API_INFO("\n\rWIFI Mode Change: AP-->AP");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI Mode Change: AP-->AP");
 		ret = wext_set_mode(WLAN0_NAME, RTW_MODE_INFRA);
 		if(ret < 0) goto Exit;
 
 		vTaskDelay(50);
 
 	}else if ((wifi_mode == RTW_MODE_STA) && (mode == RTW_MODE_STA)){
-		RTW_API_INFO("\n\rWIFI Mode No Need To Change: STA -->STA");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI Mode No Need To Change: STA -->STA");
 	}else if ((wifi_mode == RTW_MODE_STA) && (mode == RTW_MODE_PROMISC)){
-		RTW_API_INFO("\n\rWIFI Mode Change: STA-->PROMISC");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI Mode Change: STA-->PROMISC");
 		unsigned char ssid[33];
 		if(wext_get_ssid(WLAN0_NAME, ssid) > 0)
 			wifi_disconnect();
 	}else if ((wifi_mode == RTW_MODE_AP) && (mode == RTW_MODE_PROMISC)){
-		RTW_API_INFO("\n\rWIFI Mode Change: AP-->PROMISC");//Same as AP--> STA
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI Mode Change: AP-->PROMISC");//Same as AP--> STA
 		ret = wext_set_mode(WLAN0_NAME, RTW_MODE_INFRA);
 		if(ret < 0) goto Exit;
 		rtw_msleep_os(50);
@@ -2128,14 +2129,14 @@ int wifi_set_mode(rtw_mode_t mode)
 #ifdef CONFIG_CONCURRENT_MODE
 #ifdef CONFIG_WLAN_SWITCH_MODE
 	else if((wifi_mode == RTW_MODE_STA_AP) && (mode == RTW_MODE_STA)){
-		RTW_API_INFO("\n\rWIFI Mode Change: CONCURRENT-->STA");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI Mode Change: CONCURRENT-->STA");
 #if CONFIG_LWIP_LAYER
 		dhcps_deinit();
 		netif_set_down(&xnetif[1]);
 		netif_set_link_down(&xnetif[1]);
 #endif
 	}else if((wifi_mode == RTW_MODE_STA) && (mode == RTW_MODE_STA_AP)){
-		RTW_API_INFO("\n\rWIFI Mode Change: STA-->CONCURRENT");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rWIFI Mode Change: STA-->CONCURRENT");
 #if CONFIG_LWIP_LAYER
 		dhcps_init(&xnetif[1]);
 		netif_set_up(&xnetif[1]);
@@ -2146,7 +2147,7 @@ int wifi_set_mode(rtw_mode_t mode)
 #endif
 #endif
 	else{
-		RTW_API_INFO("\n\rWIFI Mode Change: not support");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rWIFI Mode Change: not support");
 		goto Exit;
 	}
 
@@ -2411,7 +2412,7 @@ int wifi_start_ap(
 #endif
 		default:
 			ret = -1;
-			RTW_API_INFO("\n\rWIFICONF: security type is not supported");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rWIFICONF: security type is not supported");
 			break;
 	}
 	if(ret < 0) goto exit;
@@ -2546,7 +2547,7 @@ int wifi_start_ap_with_hidden_ssid(
 #endif
 		default:
 			ret = -1;
-			RTW_API_INFO("\n\rWIFICONF: security type is not supported");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rWIFICONF: security type is not supported");
 			break;
 	}
 	if(ret < 0) goto exit;
@@ -2760,7 +2761,7 @@ int wifi_scan_networks_with_ssid(int (results_handler)(char*buf, int buflen, cha
 	scan_buf.buf_len = scan_buflen;
 	scan_buf.buf = (char*)rtw_malloc(scan_buf.buf_len);
 	if(!scan_buf.buf){
-		RTW_API_INFO("\n\rERROR: Can't malloc memory(%d)", scan_buf.buf_len);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Can't malloc memory(%d)", scan_buf.buf_len);
 		return RTW_NOMEM;
 	}
 	//set ssid
@@ -2770,7 +2771,7 @@ int wifi_scan_networks_with_ssid(int (results_handler)(char*buf, int buflen, cha
 
 	//Scan channel	
 	if((scan_cnt = wifi_scan(RTW_SCAN_TYPE_ACTIVE, RTW_BSS_TYPE_ANY, &scan_buf)) < 0){
-		RTW_API_INFO("\n\rERROR: wifi scan failed");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: wifi scan failed");
 		ret = RTW_ERROR;
 	}else{
 		if(NULL == results_handler)
@@ -2863,7 +2864,7 @@ int wifi_scan_networks_with_ssid_by_extended_security(int (results_handler)(char
 	scan_buf.buf_len = scan_buflen;
 	scan_buf.buf = (char*)rtw_malloc(scan_buf.buf_len);
 	if(!scan_buf.buf){
-		RTW_API_INFO("\n\rERROR: Can't malloc memory(%d)", scan_buf.buf_len);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Can't malloc memory(%d)", scan_buf.buf_len);
 		return RTW_NOMEM;
 	}
 
@@ -2876,7 +2877,7 @@ int wifi_scan_networks_with_ssid_by_extended_security(int (results_handler)(char
 
 	//Scan channel	
 	if((scan_cnt = wifi_scan(RTW_SCAN_TYPE_ACTIVE, RTW_BSS_TYPE_ANY, &scan_buf)) < 0){
-		RTW_API_INFO("\n\rERROR: wifi scan failed");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: wifi scan failed");
 		ret = RTW_ERROR;
 	}else{
 		if(NULL == results_handler)
@@ -3090,7 +3091,7 @@ int wifi_scan_networks(rtw_scan_result_handler_t results_handler, void* user_dat
 			count --;
 		}
 		if(count == 0){
-			RTW_API_INFO("\n\r[%d]WiFi: Scan is running. Wait 2s timeout.", rtw_get_current_time());
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\r[%d]WiFi: Scan is running. Wait 2s timeout.", rtw_get_current_time());
 			return RTW_TIMEOUT;
 		}
 	}
@@ -3189,7 +3190,7 @@ int wifi_scan_networks_mcc(rtw_scan_result_handler_t results_handler, void* user
 				count --;
 			}
 			if(count == 0){
-				printf("\n\r[%d]WiFi: Scan is running. Wait 1s timeout.", rtw_get_current_time());
+				DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\r[%d]WiFi: Scan is running. Wait 1s timeout.", rtw_get_current_time());
 				return RTW_TIMEOUT;
 			}
 		}
@@ -3685,21 +3686,21 @@ int wifi_restart_ap(
 	}
 	// start ap
 	if(wifi_start_ap((char*)ssid, security_type, (char*)password, ssid_len, password_len, channel) < 0) {
-		RTW_API_INFO("\n\rERROR: Operation failed!");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Operation failed!");
 		return -1;
 	}
 
 #if (INCLUDE_uxTaskGetStackHighWaterMark == 1)
-	RTW_API_INFO("\r\nWebServer Thread: High Water Mark is %ld\n", uxTaskGetStackHighWaterMark(NULL));
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nWebServer Thread: High Water Mark is %ld\n", uxTaskGetStackHighWaterMark(NULL));
 #endif
 #ifdef  CONFIG_CONCURRENT_MODE
 	// connect to ap if wlan0 was linked with ap
 	if(idx > 0 && sta_linked == 0){
 		volatile int ret;
-		RTW_API_INFO("\r\nAP: ssid=%s", (char*)setting.ssid);
-		RTW_API_INFO("\r\nAP: security_type=%d", setting.security_type);
-		RTW_API_INFO("\r\nAP: password=%s", (char*)setting.password);
-		RTW_API_INFO("\r\nAP: key_idx =%d\n", setting.key_idx);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nAP: ssid=%s", (char*)setting.ssid);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nAP: security_type=%d", setting.security_type);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nAP: password=%s", (char*)setting.password);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nAP: key_idx =%d\n", setting.key_idx);
 		ret = wifi_connect((char*)setting.ssid,
 									setting.security_type,
 									(char*)setting.password,
@@ -3717,10 +3718,10 @@ int wifi_restart_ap(
 #endif	
 #if defined(CONFIG_MBED_ENABLED)
 	osThreadId_t id = osThreadGetId();
-	RTW_API_INFO("\r\nWebServer Thread: High Water Mark is %ld\n", osThreadGetStackSpace(id));
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nWebServer Thread: High Water Mark is %ld\n", osThreadGetStackSpace(id));
 #else
 #if (INCLUDE_uxTaskGetStackHighWaterMark == 1)
-	RTW_API_INFO("\r\nWebServer Thread: High Water Mark is %ld\n", uxTaskGetStackHighWaterMark(NULL));
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\r\nWebServer Thread: High Water Mark is %ld\n", uxTaskGetStackHighWaterMark(NULL));
 #endif
 #endif
 #if CONFIG_LWIP_LAYER
@@ -3760,7 +3761,7 @@ void wifi_autoreconnect_hdl(rtw_security_t security_type,
                             char *password, int password_len,
                             int key_id)
 {
-	RTW_API_INFO("\n\r%s Not Implemented Yet!\n", __func__);
+	DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\r%s Not Implemented Yet!\n", __func__);
 }
 #else
 static void wifi_autoreconnect_thread(void *param)
@@ -3770,7 +3771,7 @@ static void wifi_autoreconnect_thread(void *param)
 #endif
 	int ret = RTW_ERROR;
 	struct wifi_autoreconnect_param *reconnect_param = (struct wifi_autoreconnect_param *) param;
-	RTW_API_INFO("\n\rauto reconnect ...\n");
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\rauto reconnect ...\n");
 	char empty_bssid[6] = {0}, assoc_by_bssid = 0;
 	extern unsigned char* rltk_wlan_get_saved_bssid(void);
 	unsigned char* saved_bssid = rltk_wlan_get_saved_bssid();
@@ -3829,7 +3830,7 @@ static void wifi_autoreconnect_thread(void *param)
 				uint8_t *ip = LwIP_GetIP(&xnetif[0]);
 #endif
 				if((ip[0] == 0) && (ip[1] == 0) && (ip[2] == 0) && (ip[3] == 0)) {
-					RTW_API_INFO("\n\nIPv4 AUTOIP ...");
+					DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\nIPv4 AUTOIP ...");
 					LwIP_AUTOIP(&xnetif[0]);
 				}
 #endif
@@ -3864,7 +3865,7 @@ void wifi_autoreconnect_hdl(rtw_security_t security_type,
 			rtw_msleep_os(2);		
 			u32 passing_tick = rtw_get_current_time() - start_tick;
 			if(rtw_systime_to_sec(passing_tick) >= 2){
-				RTW_API_INFO("\r\n Create wifi_autoreconnect_task timeout \r\n");
+				DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\r\n Create wifi_autoreconnect_task timeout \r\n");
 				return;
 			}
 			
@@ -4036,7 +4037,7 @@ void wifi_connect_monitor_mgnt(int enable)
 	if (rltk_wlan_running(WLAN0_IDX)) {
 		wext_wifi_connect_monitor_mgnt(enable);
 	} else {
-		printf("\nWiFi Disabled: Cannot set indicate mgnt\n");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\nWiFi Disabled: Cannot set indicate mgnt\n");
 	}
 	return;
 }
@@ -4466,7 +4467,7 @@ int wifi_set_softap_gkey_interval(uint32_t interval)
 	u8 wlan_idx;
 
 	if (gk_rekey == DISABLE){
-		RTW_API_INFO("\n\rUnable to set interval, GK Rekey is disabled");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rUnable to set interval, GK Rekey is disabled");
 		return RTW_ERROR;
 	}
 
@@ -4480,12 +4481,12 @@ int wifi_set_softap_gkey_interval(uint32_t interval)
 					wlan_idx = WLAN1_IDX;
 					break;
 				default:
-					RTW_API_INFO("\n\rUnable to set interval, AP interface not up");
+					DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rUnable to set interval, AP interface not up");
 					return RTW_ERROR;
 			}
 	}
 	else{
-		RTW_API_INFO("\n\rUnable to set interval, AP interface not up");
+			DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\rUnable to set interval, AP interface not up");
 		return RTW_ERROR;
 	}
 
@@ -4512,11 +4513,7 @@ void wifi_scan_country_code_and_set_channel_plan(void)
 {
 	wext_auto_set_adaptivity(ENABLE); 
 	wifi_scan_networks_with_extended_countryinfo();
-	printf("======== Scanned country code is ");
-	for (int i=0; i<2; i++){
-		printf("%c", read_country_code[i]);
-	}
-	printf(" ========\n");
+	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "Scanned country code is %c%c\n", read_country_code[0], read_country_code[1]);
 	wifi_set_channel_plan_by_country_code(read_country_code);
 }
 
@@ -4532,7 +4529,7 @@ void wifi_set_channel_plan_by_country_code(unsigned char* country_code)
 		}
 	}
 	if (country_code_found == 0){
-		printf("\n\rCountry is not found in the table, set as RTK Default");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "Country is not found in the table, set as RTK Default\n");
 		wifi_set_country(RTW_COUNTRY_RTK_DEFAULT);
 	}
 
@@ -4554,7 +4551,7 @@ void wifi_scan_networks_with_extended_countryinfo(void)
 	scan_buf.buf_len = 25 * NUM_OF_AP_SCAN;
 	scan_buf.buf = (char*)rtw_malloc(scan_buf.buf_len);
 	if(!scan_buf.buf){
-		RTW_API_INFO("\n\rERROR: Can't malloc memory(%d)", scan_buf.buf_len);
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: Can't malloc memory(%d)", scan_buf.buf_len);
 		return;
 	}
 
@@ -4563,7 +4560,7 @@ void wifi_scan_networks_with_extended_countryinfo(void)
 	memset(scan_buf.buf, 0, scan_buf.buf_len);
 
 	if((wifi_scan(RTW_SCAN_TYPE_ACTIVE, RTW_BSS_TYPE_ANY, &scan_buf)) < 0){
-		RTW_API_INFO("\n\rERROR: wifi scan failed");
+		DBG_PRINTF(MODULE_WLAN, LEVEL_ERROR, "\n\rERROR: wifi scan failed");
 		if(scan_buf.buf)
 			rtw_free(scan_buf.buf);
 		return;

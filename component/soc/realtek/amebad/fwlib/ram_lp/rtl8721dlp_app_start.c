@@ -384,14 +384,20 @@ app_taskidle_handler(
 
 void app_init_debug(void)
 {
-	u32 debug[4];
+	u32 debug[4] = {0};
 
-	debug[LEVEL_ERROR] = BIT(MODULE_BOOT) | BIT(MODULE_EFUSE);
-	debug[LEVEL_WARN]  = 0x0;
-	debug[LEVEL_INFO]  = BIT(MODULE_BOOT);// | BIT(MODULE_EFUSE);
-	debug[LEVEL_TRACE] = 0x0;
-
+#if AMEBAD_LOG_LEVEL_MAX >= 0
 	debug[LEVEL_ERROR] = 0xFFFFFFFF;
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 1
+	debug[LEVEL_WARN] = 0xFFFFFFFF;
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 2
+	debug[LEVEL_INFO] = 0xFFFFFFFF;
+#endif
+#if AMEBAD_LOG_LEVEL_MAX >= 3
+	debug[LEVEL_TRACE] = 0xFFFFFFFF;
+#endif
 
 	LOG_MASK(LEVEL_ERROR, debug[LEVEL_ERROR]);
 	LOG_MASK(LEVEL_WARN, debug[LEVEL_WARN]);
@@ -406,18 +412,8 @@ void app_init_debug(void)
 extern u32 SDM32K_Read(u32 Address);
 void app_start(void)
 {
-#ifndef CONFIG_DEBUG_LOG
-	ConfigDebugClose = 1;
-#endif
-
 	app_section_init();
 	_memset((void *) __bss_start__, 0, (__bss_end__ - __bss_start__));
-
-#ifdef CONFIG_DEBUG_LOG
-	ConfigDebugClose = 0;
-#else
-	ConfigDebugClose = 1;
-#endif
 
 	SystemCoreClockUpdate();
 

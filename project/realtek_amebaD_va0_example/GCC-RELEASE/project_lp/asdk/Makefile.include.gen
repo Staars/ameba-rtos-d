@@ -22,6 +22,7 @@ KM0_BUILDDIR	= $(ROOTDIR)/../../project_lp
 KM4_BUILDDIR	= $(ROOTDIR)/../../project_hp
 
 TARGETDIR	=$(BASEDIR)/component/soc/realtek/amebad
+include $(TARGETDIR)/swlib/string/amebad_log_level.mk
 BOOTLOADER	=$(BASEDIR)/component/soc/realtek/amebad/bootloader
 UTILITYDIR	= $(ROOTDIR)/gnu_utility
 FLASHDLDIR	= $(ROOTDIR)/flashloader
@@ -270,6 +271,7 @@ GLOBAL_CFLAGS += -fno-jump-tables #For link _thumb1_case_uqi issue
 GLOBAL_CFLAGS += -Wextra
 #GLOBAL_CFLAGS += -Wconversion
 GLOBAL_CFLAGS += $(IFLAGS)
+GLOBAL_CFLAGS += $(AMEBAD_LOG_LEVEL_CFLAGS)
 GLOBAL_CFLAGS += -DCONFIG_PLATFORM_8721D
 
 #*****************************************************************************#
@@ -387,7 +389,7 @@ RENAME_LOADER_OBJS:
 #              RULES TO GENERATE OBJECT FILE FROM .C FILE                     #
 #*****************************************************************************#
 
-%.o:%.c
+%.o:%.c $(AMEBAD_LOG_LEVEL_HEADER)
 	$(CC) $(GLOBAL_CFLAGS) $(MODULE_IFLAGS) $<  -o $@
 
 

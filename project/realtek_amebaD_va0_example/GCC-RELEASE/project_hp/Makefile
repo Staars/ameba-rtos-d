@@ -13,12 +13,12 @@ OBJS =
 # Define the Rules to build the core targets
 all: CORE_TARGETS
 	$(MAKE) -C asdk image3_s
-	$(MAKE) -C asdk bootloader
+	$(MAKE) -C asdk bootloader AMEBAD_LOG_LEVEL_MAX_OVERRIDE=-1
 	$(MAKE) -C asdk image2_ns
 	
 mp: CORE_TARGETS
 	$(MAKE) -C asdk mp_image3_s
-	$(MAKE) -C asdk bootloader
+	$(MAKE) -C asdk bootloader AMEBAD_LOG_LEVEL_MAX_OVERRIDE=-1
 	$(MAKE) -C asdk mp_image2_ns
 	
 image2: CORE_TARGETS
@@ -85,4 +85,3 @@ gdbloadrom: CORE_TARGETS
 #              GENERATE OBJECT FILE 
 #*****************************************************************************#
 CORE_TARGETS: $(OBJS)
-
