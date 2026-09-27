@@ -23,7 +23,7 @@ OBJS =
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all: CORE_TARGETS COPY_RAM_OBJS
-	make -C polarssl-1.3.8 all
+	$(MAKE) -C polarssl-1.3.8 all
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
 #*****************************************************************************#
@@ -33,6 +33,6 @@ CORE_TARGETS: $(OBJS)
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean: CLEAN_OBJS 
-	make -C polarssl-1.3.8 clean
+	$(MAKE) -C polarssl-1.3.8 clean
 
 -include $(DEPS)

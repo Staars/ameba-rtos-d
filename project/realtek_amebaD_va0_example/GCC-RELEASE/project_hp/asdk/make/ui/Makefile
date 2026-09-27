@@ -11,18 +11,18 @@ include $(MAKE_INCLUDE_GEN)
 #*****************************************************************************#
 all:
 ifeq ($(CONFIG_LITTLEVGL_EN),y)
-	@make -C LittlevGL all
+	@$(MAKE) -C LittlevGL all
 endif
 
 ifeq ($(CONFIG_EMWIN_EN),y)
-	@make -C emwin all
+	@$(MAKE) -C emwin all
 endif
 
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C emwin clean
-	@make -C LittlevGL clean
+	@$(MAKE) -C emwin clean
+	@$(MAKE) -C LittlevGL clean
 
 -include $(DEPS)

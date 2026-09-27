@@ -25,14 +25,14 @@ OBJS +=
 #*****************************************************************************#
 all: CORE_TARGETS COPY_RAM_OBJS
 ifeq ($(CONFIG_INIC_EN),y)
-	make -C inic all
+	$(MAKE) -C inic all
 endif
 ifeq ($(CONFIG_USB_AUTOINSTALL_ENABLED),y)
-	make -C usoc all
+	$(MAKE) -C usoc all
 endif
-	make -C si	all
+	$(MAKE) -C si	all
 	
-	make -C ir  all
+	$(MAKE) -C ir  all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -47,9 +47,9 @@ clean: CLEAN_OBJS
 	$(REMOVE) *.i
 	$(REMOVE) *.s
 	$(REMOVE) *.d
-	make -C inic clean
-	make -C usoc clean
-	make -C si clean
-	make -C ir clean
+	$(MAKE) -C inic clean
+	$(MAKE) -C usoc clean
+	$(MAKE) -C si clean
+	$(MAKE) -C ir clean
 
 -include $(DEPS)

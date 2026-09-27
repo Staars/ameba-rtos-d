@@ -15,10 +15,10 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-	make -C tests  all
+	$(MAKE) -C tests  all
 
 lib: CORE_TARGETS
-	make -C src lib
+	$(MAKE) -C src lib
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE                                           #
@@ -32,6 +32,6 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C src clean
-	make -C tests clean
+	$(MAKE) -C src clean
+	$(MAKE) -C tests clean
 -include $(DEPS)

@@ -15,8 +15,8 @@ OBJS =
 
 # Define the Rules to build the core targets
 lib: CORE_TARGETS
-	make -C services lib
-	make -C frameworks lib
+	$(MAKE) -C services lib
+	$(MAKE) -C frameworks lib
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE                                           #
@@ -30,6 +30,6 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C services clean
-	make -C frameworks clean
+	$(MAKE) -C services clean
+	$(MAKE) -C frameworks clean
 -include $(DEPS)

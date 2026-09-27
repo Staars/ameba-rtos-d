@@ -32,9 +32,9 @@ OBJS = $(notdir $(CSRC:.c=.o))
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all: CORE_TARGETS COPY_RAM_OBJS
-	make -C at_cmd all
-	make -C network all
-	make -C wifi all
+	$(MAKE) -C at_cmd all
+	$(MAKE) -C network all
+	$(MAKE) -C wifi all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -49,8 +49,8 @@ clean: CLEAN_OBJS
 	$(REMOVE) *.i
 	$(REMOVE) *.s
 	$(REMOVE) *.d
-	make -C at_cmd clean
-	make -C network clean
-	make -C wifi clean
+	$(MAKE) -C at_cmd clean
+	$(MAKE) -C network clean
+	$(MAKE) -C wifi clean
 
 -include $(DEPS)

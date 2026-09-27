@@ -17,98 +17,98 @@ OBJS =
 #*****************************************************************************#
 all: CORE_TARGETS
 ifeq ($(CONFIG_BT_EN),y)
-	make -C amebad_bsp all
+	$(MAKE) -C amebad_bsp all
 
 ifeq ($(CONFIG_BT_PERIPHERAL),y)
-	make -C ble_peripheral all
+	$(MAKE) -C ble_peripheral all
 endif
 
 ifeq ($(CONFIG_BT_CENTRAL),y)
-	make -C ble_central all
+	$(MAKE) -C ble_central all
 endif
 
 ifeq ($(CONFIG_BT_SCATTERNET),y)
-	make -C ble_scatternet all
+	$(MAKE) -C ble_scatternet all
 endif
 
 ifeq ($(CONFIG_BT_BEACON),y)
-	make -C bt_beacon all
+	$(MAKE) -C bt_beacon all
 endif
 
 ifeq ($(CONFIG_BT_CONFIG),y)
-	make -C bt_config all
+	$(MAKE) -C bt_config all
 endif
 
 ifeq ($(CONFIG_BT_AIRSYNC_CONFIG),y)
-	make -C bt_airsync_config all
+	$(MAKE) -C bt_airsync_config all
 endif
 
 ifeq ($(CONFIG_BT_ANCS),y)
-	make -C bt_ancs all
+	$(MAKE) -C bt_ancs all
 endif
 
 ifeq ($(CONFIG_BT_BREEZE),y)
-	make -C bt_breeze all
+	$(MAKE) -C bt_breeze all
 endif
 
 ifeq ($(CONFIG_BT_DISTANCE_DETECTOR),y)
-	make -C bt_distance_detector all
+	$(MAKE) -C bt_distance_detector all
 endif
 
 ifeq ($(CONFIG_BT_TAG_SCANNER),y)
-	make -C bt_tag_scanner all
+	$(MAKE) -C bt_tag_scanner all
 endif
 
 ifeq ($(CONFIG_BT_OTA_CLIENT),y)
-	make -C bt_ota_client all
+	$(MAKE) -C bt_ota_client all
 endif
 
 ifeq ($(CONFIG_BT_OTA_SERVER),y)
-	make -C bt_ota_server all
+	$(MAKE) -C bt_ota_server all
 endif
 
 ifeq ($(CONFIG_BT_MESH_PROVISIONER),y)
-	make -C mesh_provisioner all
+	$(MAKE) -C mesh_provisioner all
 ifeq ($(CONFIG_BT_MESH_PROVISIONER_RTK_DEMO),y)
-	make -C bt_mesh_provisioner_rtk_demo all
+	$(MAKE) -C bt_mesh_provisioner_rtk_demo all
 endif
 endif
 
 ifeq ($(CONFIG_BT_MESH_DEVICE),y)
-	make -C mesh_device all
+	$(MAKE) -C mesh_device all
 ifeq ($(CONFIG_BT_MESH_DEVICE_RTK_DEMO),y)
-	make -C bt_mesh_device_rtk_demo all
+	$(MAKE) -C bt_mesh_device_rtk_demo all
 endif
 endif
 
 ifeq ($(CONFIG_BT_MESH_PROVISIONER_MULTIPLE_PROFILE),y)
-	make -C mesh_provisioner_multiple_profile all
+	$(MAKE) -C mesh_provisioner_multiple_profile all
 ifeq ($(CONFIG_BT_MESH_PROVISIONER_RTK_DEMO),y)
-	make -C bt_mesh_provisioner_rtk_demo all
+	$(MAKE) -C bt_mesh_provisioner_rtk_demo all
 endif
 endif
 
 ifeq ($(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE),y)
-	make -C mesh_device_multiple_profile all
+	$(MAKE) -C mesh_device_multiple_profile all
 ifeq ($(CONFIG_BT_MESH_DEVICE_RTK_DEMO),y)
-	make -C bt_mesh_device_rtk_demo all
+	$(MAKE) -C bt_mesh_device_rtk_demo all
 endif
 endif
 
 ifeq ($(CONFIG_BLE_MATTER_ADAPTER),y)
-	make -C ble_matter_adapter all
+	$(MAKE) -C ble_matter_adapter all
 endif
 
 ifeq ($(CONFIG_BLE_TRANSFER_MODULE),y)
-	make -C ble_transfer_module all
+	$(MAKE) -C ble_transfer_module all
 endif
 
 ifeq ($(CONFIG_BLE_WIFIMATE_DEVICE),y)
-	make -C ble_wifimate_device all
+	$(MAKE) -C ble_wifimate_device all
 endif
 
 ifeq ($(CONFIG_BLE_WIFIMATE_CONFIGURATOR),y)
-	make -C ble_wifimate_configurator all
+	$(MAKE) -C ble_wifimate_configurator all
 endif
 
 endif
@@ -123,98 +123,98 @@ CORE_TARGETS: $(OBJS)
 #*****************************************************************************#
 clean:
 ifeq ($(CONFIG_BT_EN),y)
-	make -C amebad_bsp clean
+	$(MAKE) -C amebad_bsp clean
 
 ifeq ($(CONFIG_BT_PERIPHERAL),y)
-	make -C ble_peripheral clean
+	$(MAKE) -C ble_peripheral clean
 endif
 
 ifeq ($(CONFIG_BT_CENTRAL),y)
-	make -C ble_central clean
+	$(MAKE) -C ble_central clean
 endif
 
 ifeq ($(CONFIG_BT_SCATTERNET),y)
-	make -C ble_scatternet clean
+	$(MAKE) -C ble_scatternet clean
 endif
 
 ifeq ($(CONFIG_BT_BEACON),y)
-	make -C bt_beacon clean
+	$(MAKE) -C bt_beacon clean
 endif
 
 ifeq ($(CONFIG_BT_CONFIG),y)
-	make -C bt_config clean
+	$(MAKE) -C bt_config clean
 endif
 
 ifeq ($(CONFIG_BT_AIRSYNC_CONFIG),y)
-	make -C bt_airsync_config clean
+	$(MAKE) -C bt_airsync_config clean
 endif
 
 ifeq ($(CONFIG_BT_ANCS),y)
-	make -C bt_ancs clean
+	$(MAKE) -C bt_ancs clean
 endif
 
 ifeq ($(CONFIG_BT_BREEZE),y)
-	make -C bt_breeze clean
+	$(MAKE) -C bt_breeze clean
 endif
 
 ifeq ($(CONFIG_BT_DISTANCE_DETECTOR),y)
-	make -C bt_distance_detector clean
+	$(MAKE) -C bt_distance_detector clean
 endif
 
 ifeq ($(CONFIG_BT_TAG_SCANNER),y)
-	make -C bt_tag_scanner clean
+	$(MAKE) -C bt_tag_scanner clean
 endif
 
 ifeq ($(CONFIG_BT_OTA_CLIENT),y)
-	make -C bt_ota_client clean
+	$(MAKE) -C bt_ota_client clean
 endif
 
 ifeq ($(CONFIG_BT_OTA_SERVER),y)
-	make -C bt_ota_server clean
+	$(MAKE) -C bt_ota_server clean
 endif
 
 ifeq ($(CONFIG_BT_MESH_PROVISIONER),y)
-	make -C mesh_provisioner clean
+	$(MAKE) -C mesh_provisioner clean
 ifeq ($(CONFIG_BT_MESH_PROVISIONER_RTK_DEMO),y)
-	make -C bt_mesh_provisioner_rtk_demo clean
+	$(MAKE) -C bt_mesh_provisioner_rtk_demo clean
 endif
 endif
 
 ifeq ($(CONFIG_BT_MESH_DEVICE),y)
-	make -C mesh_device clean
+	$(MAKE) -C mesh_device clean
 ifeq ($(CONFIG_BT_MESH_DEVICE_RTK_DEMO),y)
-	make -C bt_mesh_device_rtk_demo clean
+	$(MAKE) -C bt_mesh_device_rtk_demo clean
 endif
 endif
 
 ifeq ($(CONFIG_BT_MESH_PROVISIONER_MULTIPLE_PROFILE),y)
-	make -C mesh_provisioner_multiple_profile clean
+	$(MAKE) -C mesh_provisioner_multiple_profile clean
 ifeq ($(CONFIG_BT_MESH_PROVISIONER_RTK_DEMO),y)
-	make -C bt_mesh_provisioner_rtk_demo clean
+	$(MAKE) -C bt_mesh_provisioner_rtk_demo clean
 endif
 endif
 
 ifeq ($(CONFIG_BT_MESH_DEVICE_MULTIPLE_PROFILE),y)
-	make -C mesh_device_multiple_profile clean
+	$(MAKE) -C mesh_device_multiple_profile clean
 ifeq ($(CONFIG_BT_MESH_DEVICE_RTK_DEMO),y)
-	make -C bt_mesh_device_rtk_demo clean
+	$(MAKE) -C bt_mesh_device_rtk_demo clean
 endif
 endif
 
 ifeq ($(CONFIG_BLE_MATTER_ADAPTER),y)
-	make -C ble_matter_adapter clean
+	$(MAKE) -C ble_matter_adapter clean
 endif
 
 ifeq ($(CONFIG_BLE_TRANSFER_MODULE),y)
-	make -C ble_transfer_module clean
+	$(MAKE) -C ble_transfer_module clean
 endif
 
 ifeq ($(CONFIG_BLE_WIFIMATE_DEVICE),y)
-	make -C ble_wifimate_device clean
+	$(MAKE) -C ble_wifimate_device clean
 endif
 
 ifeq ($(CONFIG_BLE_WIFIMATE_CONFIGURATOR),y)
-	make -C ble_wifimate_configurator clean
+	$(MAKE) -C ble_wifimate_configurator clean
 endif
 
 endif

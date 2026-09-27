@@ -15,27 +15,27 @@ OBJS =
 
 # Define the Rules to build the core targets
 lib: GEN_GIT_VERSION_FILE CORE_TARGETS
-	make -C sram lib
-	make -C xip lib
+	$(MAKE) -C sram lib
+	$(MAKE) -C xip lib
 	$(REMOVE) $(TARGET_LIB)_git_version.*
 	
 lib_mp: GEN_GIT_VERSION_FILE CORE_TARGETS
-	make -C sram lib_mp
-	make -C xip lib_mp
+	$(MAKE) -C sram lib_mp
+	$(MAKE) -C xip lib_mp
 	$(REMOVE) $(TARGET_LIB)_git_version.*
 	
 lib_lp: GEN_GIT_VERSION_FILE CORE_TARGETS
-	make -C sram lib_lp
-	make -C xip lib_lp
+	$(MAKE) -C sram lib_lp
+	$(MAKE) -C xip lib_lp
 	$(REMOVE) $(TARGET_LIB)_git_version.*
 
 lib_lt: GEN_GIT_VERSION_FILE CORE_TARGETS
-	make -C sram lib_lt
-	make -C xip lib_lt
+	$(MAKE) -C sram lib_lt
+	$(MAKE) -C xip lib_lt
 	$(REMOVE) $(TARGET_LIB)_git_version.*
 	
 all:
-	make -C option all
+	$(MAKE) -C option all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -52,9 +52,9 @@ GEN_GIT_VERSION_FILE:
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean: 
-	make -C sram clean
-	make -C xip clean
-	make -C option clean
+	$(MAKE) -C sram clean
+	$(MAKE) -C xip clean
+	$(MAKE) -C option clean
 	
 
 

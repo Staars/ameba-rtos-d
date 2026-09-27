@@ -15,12 +15,12 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-#	make -C dct all
-	make -C fatfs all
-	make -C littlefs all
-	make -C kv all
+#	$(MAKE) -C dct all
+	$(MAKE) -C fatfs all
+	$(MAKE) -C littlefs all
+	$(MAKE) -C kv all
 ifeq ($(CONFIG_BT_EN), y)
-	make -C ftl all
+	$(MAKE) -C ftl all
 endif
 
 #*****************************************************************************#
@@ -35,8 +35,8 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean: 
-	make -C dct clean
-	make -C fatfs clean
-	make -C ftl clean
-	make -C littlefs clean
-	make -C kv clean
+	$(MAKE) -C dct clean
+	$(MAKE) -C fatfs clean
+	$(MAKE) -C ftl clean
+	$(MAKE) -C littlefs clean
+	$(MAKE) -C kv clean

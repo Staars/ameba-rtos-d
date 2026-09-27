@@ -15,8 +15,8 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-	make -C monitor all
-	make -C touch_key all
+	$(MAKE) -C monitor all
+	$(MAKE) -C touch_key all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -30,5 +30,5 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean: 
-	make -C monitor clean
-	make -C touch_key clean
+	$(MAKE) -C monitor clean
+	$(MAKE) -C touch_key clean

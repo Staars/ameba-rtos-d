@@ -23,7 +23,7 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-	make -C src all
+	$(MAKE) -C src all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -34,7 +34,7 @@ CORE_TARGETS: $(OBJS)
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	make -C src clean
+	$(MAKE) -C src clean
 
 
 

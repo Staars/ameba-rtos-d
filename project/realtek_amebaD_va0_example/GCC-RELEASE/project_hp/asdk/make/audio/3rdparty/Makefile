@@ -16,14 +16,14 @@ all:lib
 
 lib:
 ifeq ($(CONFIG_MEDIA_CODEC_HAAC),y)
-	make -C haac all
+	$(MAKE) -C haac all
 endif
 #*****************************************************************************#
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
 ifeq ($(CONFIG_MEDIA_CODEC_HAAC),y)
-	make -C haac clean
+	$(MAKE) -C haac clean
 endif
 
 -include $(DEPS)

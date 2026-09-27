@@ -15,7 +15,7 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-	make -C GUI_X all
+	$(MAKE) -C GUI_X all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -29,8 +29,8 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean: 
-	make -C GUI_X clean
-	make -C GUI clean
+	$(MAKE) -C GUI_X clean
+	$(MAKE) -C GUI clean
 	
 
 

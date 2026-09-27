@@ -21,8 +21,8 @@ OBJS =
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all: CORE_TARGETS
-	make -C duerapp all
-	make -C libduer-device all
+	$(MAKE) -C duerapp all
+	$(MAKE) -C libduer-device all
 #*****************************************************************************#
 #              GENERATE OBJECT FILE
 #*****************************************************************************#
@@ -32,7 +32,7 @@ CORE_TARGETS: $(OBJS)
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	make -C duerapp clean
-	make -C libduer-device clean
+	$(MAKE) -C duerapp clean
+	$(MAKE) -C libduer-device clean
 
 -include $(DEPS)

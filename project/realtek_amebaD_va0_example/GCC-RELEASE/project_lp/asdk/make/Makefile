@@ -10,28 +10,28 @@ include $(MAKE_INCLUDE_GEN)
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all:
-	@make -C test all
-	@make -C os all
-	@make -C monitor all
-	@make -C target all
-	@make -C cmsis all
-	@make -C project all
+	@$(MAKE) -C test all
+	@$(MAKE) -C os all
+	@$(MAKE) -C monitor all
+	@$(MAKE) -C target all
+	@$(MAKE) -C cmsis all
+	@$(MAKE) -C project all
 ifeq ($(CONFIG_APP_DEMO),y)
-	#@make -C example all
+	#@$(MAKE) -C example all
 endif
 
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C test clean
-	@make -C os clean
-	@make -C monitor clean
-	@make -C bootloader clean
-	@make -C target clean
-	@make -C cmsis clean
-	@make -C RT_xmodem clean
-	#@make -C example clean
-	@make -C project clean
+	@$(MAKE) -C test clean
+	@$(MAKE) -C os clean
+	@$(MAKE) -C monitor clean
+	@$(MAKE) -C bootloader clean
+	@$(MAKE) -C target clean
+	@$(MAKE) -C cmsis clean
+	@$(MAKE) -C RT_xmodem clean
+	#@$(MAKE) -C example clean
+	@$(MAKE) -C project clean
 
 -include $(DEPS)

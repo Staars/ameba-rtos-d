@@ -15,13 +15,13 @@ OBJS =
 
 # Define the Rules to build the core targets
 #all: CORE_TARGETS
-#	make -C media all
+#	$(MAKE) -C media all
 
 audiolib: CORE_TARGETS
-	make -C media audiolib
+	$(MAKE) -C media audiolib
 
 playerlib: CORE_TARGETS
-	make -C media playerlib
+	$(MAKE) -C media playerlib
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE                                           #
@@ -35,5 +35,5 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C media clean
+	$(MAKE) -C media clean
 -include $(DEPS)

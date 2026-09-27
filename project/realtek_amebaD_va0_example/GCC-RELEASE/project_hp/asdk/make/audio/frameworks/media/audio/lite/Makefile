@@ -15,7 +15,7 @@ OBJS =
 
 # Define the Rules to build the core targets
 lib: CORE_TARGETS
-	make -C audio_stream lib
+	$(MAKE) -C audio_stream lib
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE                                           #
@@ -29,5 +29,5 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C audio_stream clean
+	$(MAKE) -C audio_stream clean
 -include $(DEPS)

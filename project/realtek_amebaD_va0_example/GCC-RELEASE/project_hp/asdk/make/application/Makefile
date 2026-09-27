@@ -11,37 +11,37 @@ include $(MAKE_INCLUDE_GEN)
 #*****************************************************************************#
 all:
 ifeq ($(CONFIG_BAIDU_DUER),y)
-	@make -C baidu all
+	@$(MAKE) -C baidu all
 endif
 ifeq ($(CONFIG_MQTT_EN),y)
-	@make -C mqtt all
+	@$(MAKE) -C mqtt all
 endif
 ifeq ($(CONFIG_LINKKIT_AWSS),y)
-	@make -C linkkit all
+	@$(MAKE) -C linkkit all
 endif
 ifeq ($(CONFIG_MATTER_EN),y)
-	@make -C $(MATTER_BUILDDIR)/make all
+	@$(MAKE) -C $(MATTER_BUILDDIR)/make all
 endif
 ifeq ($(CONFIG_AMAZON_FREERTOS_EN),y)
-	@make -C $(AMAZON_FREERTOS_BUILDDIR)/make all
+	@$(MAKE) -C $(AMAZON_FREERTOS_BUILDDIR)/make all
 endif
-	@make -C xmodem all
-	#@make -C game_headset all
-	#@make -C airkiss all
+	@$(MAKE) -C xmodem all
+	#@$(MAKE) -C game_headset all
+	#@$(MAKE) -C airkiss all
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C baidu clean
-	@make -C mqtt clean
-	@make -C xmodem clean
-	@make -C game_headset clean
-	#@make -C airkiss clean
-	@make -C linkkit clean
+	@$(MAKE) -C baidu clean
+	@$(MAKE) -C mqtt clean
+	@$(MAKE) -C xmodem clean
+	@$(MAKE) -C game_headset clean
+	#@$(MAKE) -C airkiss clean
+	@$(MAKE) -C linkkit clean
 ifeq ($(CONFIG_MATTER_EN),y)
-	@make -C $(MATTER_BUILDDIR)/make clean
+	@$(MAKE) -C $(MATTER_BUILDDIR)/make clean
 endif
 ifeq ($(CONFIG_AMAZON_FREERTOS_EN),y)
-	@make -C $(AMAZON_FREERTOS_BUILDDIR)/make clean
+	@$(MAKE) -C $(AMAZON_FREERTOS_BUILDDIR)/make clean
 endif
 -include $(DEPS)

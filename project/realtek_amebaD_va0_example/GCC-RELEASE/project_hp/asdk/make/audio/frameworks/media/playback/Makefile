@@ -15,22 +15,22 @@ include $(MAKE_INCLUDE_GEN)
 
 tests:
 ifeq ($(CONFIG_MEDIA_PLAYER),y)
-	make -C standard/tests all
+	$(MAKE) -C standard/tests all
 endif
 
 lib:
 ifeq ($(CONFIG_MEDIA_PLAYER),y)
-	make -C standard lib
-	make -C xip lib
+	$(MAKE) -C standard lib
+	$(MAKE) -C xip lib
 endif
 #*****************************************************************************#
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
 ifeq ($(CONFIG_MEDIA_PLAYER),y)
-	make -C standard clean
-	make -C xip clean
-	make -C standard/tests clean
+	$(MAKE) -C standard clean
+	$(MAKE) -C xip clean
+	$(MAKE) -C standard/tests clean
 endif
 
 -include $(DEPS)

@@ -38,6 +38,7 @@ OBJS = $(notdir $(CSRC:.c=.o))
 # Define the Rules to build the core targets
 #all: CORE_TARGETS COPY_RAM_OBJS
 all: CORE_TARGETS NETWORK_RENAME_CODE2SRAM COPY_RAM_OBJS
+COPY_RAM_OBJS: NETWORK_RENAME_CODE2SRAM
 	
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 

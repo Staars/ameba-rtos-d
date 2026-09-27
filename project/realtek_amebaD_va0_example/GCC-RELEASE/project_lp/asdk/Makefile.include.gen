@@ -102,6 +102,7 @@ endif
 tool_dir = $(ASDK_TOOLCHAIN)/bin
 
 DEPS = $(patsubst %.o, %.d, $(OBJS))
+JOBS ?= 1
 
 #****************************************************************************#
 #                             ARM TOOLS DEFINITION                           #
@@ -322,6 +323,13 @@ ROM_LD_ARG += -Wl,--no-enum-size-warning
 #*****************************************************************************#
 #              COPYING OBJECT FILES TO THE BUILD DIRECTORY                    #
 #*****************************************************************************#
+
+.PHONY: CORE_TARGETS
+CORE_TARGETS:
+COPY_RAM_OBJS: CORE_TARGETS
+COPY_ROM_OBJS: CORE_TARGETS
+RENAME_ROM_OBJS: CORE_TARGETS
+RENAME_LOADER_OBJS: CORE_TARGETS
 
 COPY_RAM_OBJS:
 	echo "=============================================================" \

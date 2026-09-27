@@ -15,9 +15,9 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-	make -C emWinLibrary all
-	make -C Sample all
-	make -C Third_Party all
+	$(MAKE) -C emWinLibrary all
+	$(MAKE) -C Sample all
+	$(MAKE) -C Third_Party all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -31,9 +31,9 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean: 
-	make -C emWinLibrary clean
-	make -C Sample clean
-	make -C Third_Party clean
+	$(MAKE) -C emWinLibrary clean
+	$(MAKE) -C Sample clean
+	$(MAKE) -C Third_Party clean
 	
 
 

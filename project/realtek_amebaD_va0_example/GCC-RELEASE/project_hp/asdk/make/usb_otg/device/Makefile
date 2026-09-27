@@ -14,7 +14,7 @@ OBJS =
 
 # Define the Rules to build the core targets
 all: CORE_TARGETS
-	make -C class all
+	$(MAKE) -C class all
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE
@@ -26,8 +26,8 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C lib clean
-	make -C class clean
+	$(MAKE) -C lib clean
+	$(MAKE) -C class clean
 
 -include $(DEPS)
 

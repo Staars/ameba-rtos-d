@@ -16,7 +16,7 @@ all:lib
 
 lib:
 ifeq ($(CONFIG_MEDIA_CODEC_AAC),y)
-	make -C aac all
+	$(MAKE) -C aac all
 endif
 
 #*****************************************************************************#
@@ -24,7 +24,7 @@ endif
 #*****************************************************************************#
 clean:
 ifeq ($(CONFIG_MEDIA_CODEC_SW_AAC),y)
-	make -C aac clean
+	$(MAKE) -C aac clean
 endif
 
 -include $(DEPS)

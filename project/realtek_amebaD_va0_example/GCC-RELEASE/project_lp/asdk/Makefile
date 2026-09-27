@@ -96,33 +96,33 @@ endif
 #*****************************************************************************#
 make_subdirs_flashloader:
 	@ rm -f $(RAM_OBJS_LIST)
-	@make -C make/flashloader all
+	@$(MAKE) -C make/flashloader all
 
 make_subdirs_imgtool_flashloader:
 	@ rm -f $(RAM_OBJS_LIST)
-	@make -C $(ROOTDIR)/make/RT_xmodem all
+	@$(MAKE) -C $(ROOTDIR)/make/RT_xmodem all
 
 make_subdirs_rom:
 	@echo > $(ROOTDIR)/rom_size.txt
-	@make -C make_rom all
+	@$(MAKE) -C make_rom all
 	@$(MOVE) $(ROOTDIR)/rom_size.txt $(ROOTDIR)/lib/rom_acut
 
 make_subdirs:
 	@rm -f $(RAM_OBJS_LIST)
 	@echo > $(ROOTDIR)/ram_size.txt
 	@echo > $(ROOTDIR)/obj_list.txt
-	@make -C make all
+	@$(MAKE) -C make -j$(JOBS) all
 	@$(MOVE) $(ROOTDIR)/ram_size.txt $(IMAGE_TARGET_FOLDER)
 	@$(MOVE) $(ROOTDIR)/obj_list.txt $(IMAGE_TARGET_FOLDER)
 
 make_subdirs_bootloader:
-	@make -C make/bootloader all
+	@$(MAKE) -C make/bootloader all
 
 make_subdirs_lib:
 	@ rm -f $(RAM_OBJS_LIST)
-	@make -C make/target/wifi_fw all
-	@make -C make/target/wifi_rcu_fw all
-	@make -C make/pmc_lp all
+	@$(MAKE) -C make/target/wifi_fw all
+	@$(MAKE) -C make/target/wifi_rcu_fw all
+	@$(MAKE) -C make/pmc_lp all
 	@ rm -f $(RAM_OBJS_LIST)
 
 #*****************************************************************************#
@@ -280,7 +280,7 @@ check_toolchain: check_execute_permission
 	@if [ -d $(ASDK_TOOLCHAIN) ]; \
 		then echo "ToolChain Had Existed"; \
 		else echo "Extract toolchain"; \
-			make -C $(TOOLCHAINDIR) all; fi
+			$(MAKE) -C $(TOOLCHAINDIR) all; fi
 
 #*****************************************************************************#
 #                      RULES TO CHECK EXECUTE PERMISSION                      #
@@ -381,17 +381,17 @@ clean:
 			echo "====== Remove $(IMAGE_TARGET_FOLDER) Success ======";\
 		else echo "$(IMAGE_TARGET_FOLDER) no exist"; fi
 
-	@make -C make clean
-	# make -C config clean
-	make -C $(SCRIPTSDIR)/lxdialog clean
+	@$(MAKE) -C make clean
+	# $(MAKE) -C config clean
+	$(MAKE) -C $(SCRIPTSDIR)/lxdialog clean
 
 	#flashloader code start
-	make -C make/flashloader clean
+	$(MAKE) -C make/flashloader clean
 
-	make -C $(TARGETDIR)/imgtool_floader clean
+	$(MAKE) -C $(TARGETDIR)/imgtool_floader clean
 
 clean_rom:
-	@make -C make_rom clean
+	@$(MAKE) -C make_rom clean
 
 clean_all: clean
 	@if [ $(COMPILEOS) = $(LINUX_OS) ]; \

@@ -11,26 +11,26 @@ GLOBAL_CFLAGS += -DCONFIG_BUILD_ROM
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all:
-	make -C ../vector all
-	make -C ../fwlib_ns all
-	make -C ../crypto all
-	make -C ../monitor all
-	make -C ../string all
-	make -C ../apple all
-	make -C ../mbedtls all
-	make -C ../dsp all
+	$(MAKE) -C ../vector all
+	$(MAKE) -C ../fwlib_ns all
+	$(MAKE) -C ../crypto all
+	$(MAKE) -C ../monitor all
+	$(MAKE) -C ../string all
+	$(MAKE) -C ../apple all
+	$(MAKE) -C ../mbedtls all
+	$(MAKE) -C ../dsp all
 
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	make -C ../vector clean
-	make -C ../fwlib_ns clean
-	make -C ../crypto clean
-	make -C ../monitor clean
-	make -C ../string clean
-	make -C ../apple clean
-	make -C ../mbedtls clean
-	make -C ../dsp clean
+	$(MAKE) -C ../vector clean
+	$(MAKE) -C ../fwlib_ns clean
+	$(MAKE) -C ../crypto clean
+	$(MAKE) -C ../monitor clean
+	$(MAKE) -C ../string clean
+	$(MAKE) -C ../apple clean
+	$(MAKE) -C ../mbedtls clean
+	$(MAKE) -C ../dsp clean
 
 -include $(DEPS)

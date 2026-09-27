@@ -23,6 +23,7 @@ OBJS = $(notdir $(CSRC:.c=.o))
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all: CLEAN_OBJS CORE_TARGETS COPY_RAM_OBJS
+CORE_TARGETS: CLEAN_OBJS
 	
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 

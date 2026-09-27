@@ -11,77 +11,77 @@ include $(MAKE_INCLUDE_GEN)
 #*****************************************************************************#
 all:
 ifeq ($(CONFIG_BT_EN),y)
-	@make -C rtl_bluetooth all
+	@$(MAKE) -C rtl_bluetooth all
 endif
 ifeq ($(CONFIG_WIFI_EN),y)
-	@make -C network all
-	@make -C api all
-	@make -C wlan all
+	@$(MAKE) -C network all
+	@$(MAKE) -C api all
+	@$(MAKE) -C wlan all
 endif
 ifeq ($(CONFIG_USB_OTG_EN),y)
-	@make -C usb_otg all
+	@$(MAKE) -C usb_otg all
 endif
 
-	@make -C utilities all
-	@make -C test all
-	@make -C os all
+	@$(MAKE) -C utilities all
+	@$(MAKE) -C test all
+	@$(MAKE) -C os all
 
 ifeq ($(CONFIG_MBED_TLS_ENABLED),y)
-	@make -C mbedtls all
+	@$(MAKE) -C mbedtls all
 endif
 
 ifeq ($(CONFIG_GUI_EN),y)
-	@make -C ui all
+	@$(MAKE) -C ui all
 endif
 
 ifeq ($(CONFIG_LINKKIT_AWSS),y)
-	@make -C linkkit all
+	@$(MAKE) -C linkkit all
 endif
-	#@make -C bootloader all
-	@make -C app all
-	@make -C target all
-	@make -C drivers all
-	@make -C cmsis all
-	@make -C mbed all
-	@make -C audio all
-	#@make -C audio test
-	@make -C graphic all
-	#@make -C media all
-	@make -C utilities_example all
-	@make -C file_system all
-	@make -C project all
-	@make -C application all
-	#@make -C cmsis-dsp all
+	#@$(MAKE) -C bootloader all
+	@$(MAKE) -C app all
+	@$(MAKE) -C target all
+	@$(MAKE) -C drivers all
+	@$(MAKE) -C cmsis all
+	@$(MAKE) -C mbed all
+	@$(MAKE) -C audio all
+	#@$(MAKE) -C audio test
+	@$(MAKE) -C graphic all
+	#@$(MAKE) -C media all
+	@$(MAKE) -C utilities_example all
+	@$(MAKE) -C file_system all
+	@$(MAKE) -C project all
+	@$(MAKE) -C application all
+	#@$(MAKE) -C cmsis-dsp all
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C application clean
-	@make -C wlan clean
-	@make -C wps clean
-	@make -C network clean
-	@make -C api clean
-	@make -C utilities clean
-	@make -C test clean
-	@make -C os clean
-	@make -C ssl clean
-	@make -C mbedtls clean
-	@make -C mbed clean
-	@make -C app clean
-	@make -C bootloader clean
-	@make -C drivers clean
-	@make -C target clean
-	@make -C rtl_bluetooth clean
-	@make -C cmsis clean
-	@make -C cmsis-dsp clean
-	@make -C mbed clean
-	@make -C audio clean
-	@make -C graphic clean
-	@make -C utilities_example clean
-	@make -C file_system clean	
-	@make -C project clean
-	@make -C ui clean
-	@make -C media clean
-	@make -C video clean
-	@make -C usb_otg clean
+	@$(MAKE) -C application clean
+	@$(MAKE) -C wlan clean
+	@$(MAKE) -C wps clean
+	@$(MAKE) -C network clean
+	@$(MAKE) -C api clean
+	@$(MAKE) -C utilities clean
+	@$(MAKE) -C test clean
+	@$(MAKE) -C os clean
+	@$(MAKE) -C ssl clean
+	@$(MAKE) -C mbedtls clean
+	@$(MAKE) -C mbed clean
+	@$(MAKE) -C app clean
+	@$(MAKE) -C bootloader clean
+	@$(MAKE) -C drivers clean
+	@$(MAKE) -C target clean
+	@$(MAKE) -C rtl_bluetooth clean
+	@$(MAKE) -C cmsis clean
+	@$(MAKE) -C cmsis-dsp clean
+	@$(MAKE) -C mbed clean
+	@$(MAKE) -C audio clean
+	@$(MAKE) -C graphic clean
+	@$(MAKE) -C utilities_example clean
+	@$(MAKE) -C file_system clean
+	@$(MAKE) -C project clean
+	@$(MAKE) -C ui clean
+	@$(MAKE) -C media clean
+	@$(MAKE) -C video clean
+	@$(MAKE) -C usb_otg clean
 -include $(DEPS)

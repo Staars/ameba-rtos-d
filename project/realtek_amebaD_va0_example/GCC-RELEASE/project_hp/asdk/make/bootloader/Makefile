@@ -35,6 +35,7 @@ OBJS = $(notdir $(CSRC:.c=.o))
 # Define the Rules to build the core targets
 #all: CORE_TARGETS
 all: CORE_TARGETS RENAME_LOADER_OBJS COPY_RAM_OBJS
+COPY_RAM_OBJS: RENAME_LOADER_OBJS
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
 #*****************************************************************************#

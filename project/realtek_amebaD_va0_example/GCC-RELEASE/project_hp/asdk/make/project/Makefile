@@ -10,18 +10,18 @@ include $(MAKE_INCLUDE_GEN)
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all:
-	@make -C xip all
-	@make -C sram all
-	@make -C library all
-	@make -C src all
+	@$(MAKE) -C xip all
+	@$(MAKE) -C sram all
+	@$(MAKE) -C library all
+	@$(MAKE) -C src all
 
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C xip clean
-	@make -C sram clean
-	@make -C library clean
-	@make -C src clean
+	@$(MAKE) -C xip clean
+	@$(MAKE) -C sram clean
+	@$(MAKE) -C library clean
+	@$(MAKE) -C src clean
 
 -include $(DEPS)

@@ -24,12 +24,12 @@ OBJS =
 #*****************************************************************************#
 all: CORE_TARGETS COPY_RAM_OBJS
 ifeq ($(CONFIG_DHRYSTONE_TEST),y)
-	make -C coremark all
-	make -C dhrystone all
+	$(MAKE) -C coremark all
+	$(MAKE) -C dhrystone all
 endif
 ifeq ($(CONFIG_PER_TEST),y)
-	make -C verification all
-	make -C std_lib all
+	$(MAKE) -C verification all
+	$(MAKE) -C std_lib all
 endif
 #*****************************************************************************#
 #              GENERATE OBJECT FILE 
@@ -40,9 +40,9 @@ CORE_TARGETS: $(OBJS)
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean: 
-	make -C coremark clean
-	make -C dhrystone clean
-	make -C verification clean
-	make -C std_lib clean
+	$(MAKE) -C coremark clean
+	$(MAKE) -C dhrystone clean
+	$(MAKE) -C verification clean
+	$(MAKE) -C std_lib clean
 
 -include $(DEPS)

@@ -11,14 +11,14 @@ include $(MAKE_INCLUDE_GEN)
 #*****************************************************************************#
 all:
 ifeq ($(CONFIG_TRUSTZONE), y)
-	@make -C img3 all
-	@make -C test all
-	@make -C crypto all
-	@make -C os all
+	@$(MAKE) -C img3 all
+	@$(MAKE) -C test all
+	@$(MAKE) -C crypto all
+	@$(MAKE) -C os all
 ifeq ($(CONFIG_MATTER_SECURE_EN),y)
-	@make -C $(MATTER_BUILDDIR)/make/mbedtls_secure all
+	@$(MAKE) -C $(MATTER_BUILDDIR)/make/mbedtls_secure all
 else
-	#@make -C mbedtls all
+	#@$(MAKE) -C mbedtls all
 endif
 endif
 
@@ -26,13 +26,13 @@ endif
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C img3 clean
-	@make -C test clean
-	@make -C crypto clean
-	@make -C os clean
+	@$(MAKE) -C img3 clean
+	@$(MAKE) -C test clean
+	@$(MAKE) -C crypto clean
+	@$(MAKE) -C os clean
 ifeq ($(CONFIG_MATTER_SECURE_EN),y)
-	@make -C $(MATTER_BUILDDIR)/make/mbedtls_secure clean
+	@$(MAKE) -C $(MATTER_BUILDDIR)/make/mbedtls_secure clean
 endif
-	@make -C mbedtls clean
+	@$(MAKE) -C mbedtls clean
 
 -include $(DEPS)

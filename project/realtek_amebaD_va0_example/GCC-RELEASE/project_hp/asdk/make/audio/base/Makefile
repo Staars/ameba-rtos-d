@@ -15,11 +15,11 @@ OBJS =
 
 # Define the Rules to build the core targets
 lib: CORE_TARGETS
-	make -C libs lib
-	make -C log lib
-	make -C osal lib
-	make -C media lib
-	make -C xip lib
+	$(MAKE) -C libs lib
+	$(MAKE) -C log lib
+	$(MAKE) -C osal lib
+	$(MAKE) -C media lib
+	$(MAKE) -C xip lib
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE                                           #
@@ -33,9 +33,9 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C libs clean
-	make -C log clean
-	make -C osal clean
-	make -C media clean
-	make -C xip clean
+	$(MAKE) -C libs clean
+	$(MAKE) -C log clean
+	$(MAKE) -C osal clean
+	$(MAKE) -C media clean
+	$(MAKE) -C xip clean
 -include $(DEPS)

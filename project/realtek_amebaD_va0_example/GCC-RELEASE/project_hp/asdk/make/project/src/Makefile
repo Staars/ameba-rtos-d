@@ -11,7 +11,7 @@ include $(MAKE_INCLUDE_GEN)
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all:
-	@make -C $(SRCDIR) all
+	@$(MAKE) -C $(SRCDIR) all
 	@if [ "$(COMPILEOS)" != "$(DARWIN_OS)" ]; then \
 		find $(SRCDIR) -type f -regex '.*\(\.i\|\.d\|\.s\|\.su\|\.o\)' |xargs -i mv {} ./; \
 	else \

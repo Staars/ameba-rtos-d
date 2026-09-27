@@ -11,22 +11,22 @@ GLOBAL_CFLAGS += -DCONFIG_BUILD_ROM
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all:
-	make -C vector all
-	make -C fwlib all
-	make -C monitor all
-	make -C xmodem all
-	make -C string all
-	make -C wifi_fw all
+	$(MAKE) -C vector all
+	$(MAKE) -C fwlib all
+	$(MAKE) -C monitor all
+	$(MAKE) -C xmodem all
+	$(MAKE) -C string all
+	$(MAKE) -C wifi_fw all
 
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	make -C vector clean
-	make -C fwlib clean
-	make -C monitor clean
-	make -C xmodem clean
-	make -C string clean
-	make -C wifi_fw clean
+	$(MAKE) -C vector clean
+	$(MAKE) -C fwlib clean
+	$(MAKE) -C monitor clean
+	$(MAKE) -C xmodem clean
+	$(MAKE) -C string clean
+	$(MAKE) -C wifi_fw clean
 
 -include $(DEPS)

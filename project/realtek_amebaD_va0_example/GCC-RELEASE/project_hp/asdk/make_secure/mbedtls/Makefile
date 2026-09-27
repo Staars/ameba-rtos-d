@@ -10,14 +10,14 @@ include $(MAKE_INCLUDE_GEN)
 #                        RULES TO GENERATE TARGETS                            #
 #*****************************************************************************#
 all:
-	@make -C library all
-	@make -C library_s all
+	@$(MAKE) -C library all
+	@$(MAKE) -C library_s all
 
 #*****************************************************************************#
 #              CLEAN GENERATED FILES                                          #
 #*****************************************************************************#
 clean:
-	@make -C library clean
-	@make -C library_s clean
+	@$(MAKE) -C library clean
+	@$(MAKE) -C library_s clean
 
 -include $(DEPS)

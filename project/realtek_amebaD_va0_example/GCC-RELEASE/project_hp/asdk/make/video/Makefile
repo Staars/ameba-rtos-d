@@ -26,5 +26,5 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean: 
-	make -C v4l2 clean
+	$(MAKE) -C v4l2 clean
 

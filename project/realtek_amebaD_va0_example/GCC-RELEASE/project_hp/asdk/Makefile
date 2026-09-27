@@ -252,18 +252,18 @@ endif
 #*****************************************************************************#
 make_subdirs_rom:
 	@echo > $(ROOTDIR)/rom_size.txt
-	@make -C make_rom/make all
+	@$(MAKE) -C make_rom/make all
 	@$(MOVE) $(ROOTDIR)/rom_size.txt $(ROOTDIR)/lib/rom_acut/rom_size_s.txt
 make_subdirs_rom_ns:
 	@echo > $(ROOTDIR)/rom_size.txt
-	@make -C make_rom/make_ns all
+	@$(MAKE) -C make_rom/make_ns all
 	@$(MOVE) $(ROOTDIR)/rom_size.txt $(ROOTDIR)/lib/rom_acut/rom_size_ns.txt
 
 make_subdirs:
 	@ rm -f $(RAM_OBJS_LIST)
 	@echo > $(ROOTDIR)/ram_size.txt
 	@echo > $(ROOTDIR)/obj_list.txt
-	@make -C make all
+	@$(MAKE) -C make -j$(JOBS) all
 	@$(MOVE) $(ROOTDIR)/ram_size.txt $(IMAGE_TARGET_FOLDER)
 	@$(MOVE) $(ROOTDIR)/obj_list.txt $(IMAGE_TARGET_FOLDER)
 
@@ -271,49 +271,49 @@ make_subdirs_secure:
 	@ rm -f $(RAM_OBJS_LIST)
 	@echo > $(ROOTDIR)/ram_size.txt
 	@echo > $(ROOTDIR)/obj_list.txt
-	@make -C make_secure all
+	@$(MAKE) -C make_secure all
 	@$(MOVE) $(ROOTDIR)/ram_size.txt $(IMAGE_TARGET_FOLDER)
 	@$(MOVE) $(ROOTDIR)/obj_list.txt $(IMAGE_TARGET_FOLDER)
 
 make_subdirs_bootloader:
 	@ rm -f $(RAM_OBJS_LIST)
-	@make -C make/bootloader all
+	@$(MAKE) -C make/bootloader all
 
 make_subdirs_lib:
 	@ rm -f $(RAM_OBJS_LIST)
-	@make -C make/wlan lib
-	#@make -C make/wlan clean
-	#@make -C make/wlan lib_mp
-	#@make -C make/wlan clean
+	@$(MAKE) -C make/wlan lib
+	#@$(MAKE) -C make/wlan clean
+	#@$(MAKE) -C make/wlan lib_mp
+	#@$(MAKE) -C make/wlan clean
 	#@make -C make/wlan lib_lp	
-	#@make -C make/wlan clean
+	#@$(MAKE) -C make/wlan clean
 	#@make -C make/wlan lib_lt		
-	@make -C make/cmsis-dsp all
-	@make -C make/wps all
-	@make -C make/network/httpc all
-	@make -C make/network/httpd all
-	@make -C make/network/websocket all
-	#@make -C make/network/http2 all
-	@make -C make/network/eap all
-	@make -C make/network/tftp all
-	@make -C make/file_system/dct all
-	@make -C make/application/game_headset all
-	#@make -C make/network/libcoap all
+	@$(MAKE) -C make/cmsis-dsp all
+	@$(MAKE) -C make/wps all
+	@$(MAKE) -C make/network/httpc all
+	@$(MAKE) -C make/network/httpd all
+	@$(MAKE) -C make/network/websocket all
+	#@$(MAKE) -C make/network/http2 all
+	@$(MAKE) -C make/network/eap all
+	@$(MAKE) -C make/network/tftp all
+	@$(MAKE) -C make/file_system/dct all
+	@$(MAKE) -C make/application/game_headset all
+	#@$(MAKE) -C make/network/libcoap all
 #	MMF LIBRARY
-# 	@make -C make/audio/g711 all
-# 	@make -C make/audio/faac all
-# 	@make -C make/audio/haac all
-#	@make -C make/audio/speex all
-	@make -C make/media/rtp_codec all
-	@make -C make/network/rtsp all
-	@make -C make/media/mmfv2 all
-	@make -C make/video/v4l2 all
-	@make -C make/usb_otg/device_old/lib all
-	@make -C make/usb_otg/host_old/lib all
-	@make -C make/usb_otg/device/lib all
-	@make -C make/usb_otg/host/lib all
-#	@make -C make/ui/emwin/emWinLibrary/GUI lib
-	@make -C make/pmc_hp all
+# 	@$(MAKE) -C make/audio/g711 all
+# 	@$(MAKE) -C make/audio/faac all
+# 	@$(MAKE) -C make/audio/haac all
+#	@$(MAKE) -C make/audio/speex all
+	@$(MAKE) -C make/media/rtp_codec all
+	@$(MAKE) -C make/network/rtsp all
+	@$(MAKE) -C make/media/mmfv2 all
+	@$(MAKE) -C make/video/v4l2 all
+	@$(MAKE) -C make/usb_otg/device_old/lib all
+	@$(MAKE) -C make/usb_otg/host_old/lib all
+	@$(MAKE) -C make/usb_otg/device/lib all
+	@$(MAKE) -C make/usb_otg/host/lib all
+#	@$(MAKE) -C make/ui/emwin/emWinLibrary/GUI lib
+	@$(MAKE) -C make/pmc_hp all
 # build audio libs
 	@+$(MAKE) -C make/audio lib
 
@@ -586,7 +586,7 @@ check_toolchain: check_execute_permission
 	@if [ -d $(ASDK_TOOLCHAIN) ]; \
 		then echo "ToolChain Had Existed"; \
 		else echo "Extract toolchain"; \
-			make -C $(TOOLCHAINDIR) all; fi
+			$(MAKE) -C $(TOOLCHAINDIR) all; fi
 
 #*****************************************************************************#
 #                      RULES TO CHECK EXECUTE PERMISSION                      #
@@ -697,23 +697,23 @@ clean:
 			echo "====== Remove $(IMAGE_TARGET_FOLDER) Success ======";\
 		else echo "$(IMAGE_TARGET_FOLDER) no exist"; fi
 
-	@make -C make clean
-	@make -C make_secure clean
-	# make -C config clean
-	make -C $(SCRIPTSDIR)/lxdialog clean
+	@$(MAKE) -C make clean
+	@$(MAKE) -C make_secure clean
+	# $(MAKE) -C config clean
+	$(MAKE) -C $(SCRIPTSDIR)/lxdialog clean
 
 ifeq ($(CONFIG_MATTER_EN), y)
-	make -C $(MATTER_BUILDDIR)/make/chip_main clean
-	make -C $(MATTER_BUILDDIR)/make/chip clean
+	$(MAKE) -C $(MATTER_BUILDDIR)/make/chip_main clean
+	$(MAKE) -C $(MATTER_BUILDDIR)/make/chip clean
 endif
 
 clean_rom:
-	@make -C make_rom/make clean
-	@make -C make_rom/make_ns clean
+	@$(MAKE) -C make_rom/make clean
+	@$(MAKE) -C make_rom/make_ns clean
 
 clean_xip:
-	@make -C make clean
-	@make -C make_ns clean
+	@$(MAKE) -C make clean
+	@$(MAKE) -C make_ns clean
 
 clean_all: clean
 	@if [ $(COMPILEOS) = $(LINUX_OS) ]; \
@@ -842,4 +842,3 @@ copy_ld_img3:
 	cat $(LINK_ROM_SYMBOL_S) >> $(BUILD_TARGET_FOLDER)/rlx8721d.ld
 copy_ld_rom_ns:
 	$(COPY) ./ld_ns/rlx8721d_rom_bin.ld  $(BUILD_TARGET_FOLDER)/rlx8721d.ld
-

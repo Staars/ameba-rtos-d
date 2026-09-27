@@ -16,8 +16,8 @@ OBJS =
 # Define the Rules to build the core targets
 
 lib: CORE_TARGETS
-	make -C osal_c lib
-	make -C osal_cxx lib
+	$(MAKE) -C osal_c lib
+	$(MAKE) -C osal_cxx lib
 
 #*****************************************************************************#
 #              GENERATE OBJECT FILE                                           #
@@ -31,6 +31,6 @@ CORE_TARGETS: $(OBJS)
 #                        RULES TO CLEAN TARGETS                               #
 #*****************************************************************************#
 clean:
-	make -C osal_c clean
-	make -C osal_cxx clean
+	$(MAKE) -C osal_c clean
+	$(MAKE) -C osal_cxx clean
 -include $(DEPS)
