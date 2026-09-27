@@ -9,6 +9,7 @@
 
 #include "ameba_soc.h"
 #include "rtl8721d_system.h"
+#include "diag.h"
 #if defined ( __ICCARM__ )
 #pragma section=".ram_image2.bss"
 
@@ -399,16 +400,24 @@ void app_init_debug(void)
 
 	//DBG_PRINTF(MODULE_EFUSE, LEVEL_INFO, "app_init_debug: %x:%x:%x:%x\n",debug[0], debug[1], debug[2], debug[3]);
 	//DBG_PRINTF(MODULE_EFUSE, LEVEL_ERROR, "app_init_debug: %x:%x:%x:%x\n",debug[0], debug[1], debug[2], debug[3]);
-
 }
 
 // The Main App entry point
 extern u32 SDM32K_Read(u32 Address);
 void app_start(void)
 {
+#ifndef CONFIG_DEBUG_LOG
+	ConfigDebugClose = 1;
+#endif
 
 	app_section_init();
 	_memset((void *) __bss_start__, 0, (__bss_end__ - __bss_start__));
+
+#ifdef CONFIG_DEBUG_LOG
+	ConfigDebugClose = 0;
+#else
+	ConfigDebugClose = 1;
+#endif
 
 	SystemCoreClockUpdate();
 

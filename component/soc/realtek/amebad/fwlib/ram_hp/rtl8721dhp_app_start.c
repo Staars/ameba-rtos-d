@@ -9,6 +9,7 @@
 
 #include "ameba_soc.h"
 #include "rtl8721d_system.h"
+#include "diag.h"
 #include "psram_reserve.h"
 #if defined ( __ICCARM__ )
 #pragma section=".ram_image2.bss"
@@ -400,6 +401,9 @@ void app_init_debug(void)
 // The Main App entry point
 void app_start(void)
 {
+#ifndef CONFIG_DEBUG_LOG
+	ConfigDebugClose = 1;
+#endif
 	//cmse_address_info_t cmse_address_info = cmse_TT((void *)DiagPrintf);
 
 	irq_table_init(MSP_RAM_HP_NS); /* NS Vector table init */
@@ -407,6 +411,12 @@ void app_start(void)
 
 	app_section_init();
 	_memset((void *) __bss_start__, 0, (__bss_end__ - __bss_start__));
+
+#ifdef CONFIG_DEBUG_LOG
+	ConfigDebugClose = 0;
+#else
+	ConfigDebugClose = 1;
+#endif
 
 #if defined (configENABLE_TRUSTZONE) && (configENABLE_TRUSTZONE == 1U)
 	BOOT_IMG3();
@@ -497,4 +507,3 @@ RAM_START_FUNCTION Img2EntryFun0 = {
 	NULL,//BOOT_RAM_WakeFromPG,
 	(u32)NewVectorTable
 };
-
