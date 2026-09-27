@@ -88,7 +88,9 @@ if [ "$COMPILEOS" != "Darwin" ]; then
 fi
 
 cd ./gnu_utility
-if [ "$COMPILEOS" == "GNU/Linux" ]; then
+if [ -x ./newmota_ota_checksum ]; then
+	CHECKSUMTOOL=./newmota_ota_checksum
+elif [ "$COMPILEOS" == "GNU/Linux" ]; then
 	CHECKSUMTOOL=./checksum
 elif [ "$COMPILEOS" == "Darwin" ]; then
     CHECKSUMTOOL=./checksum_MacOS
@@ -144,7 +146,7 @@ fi
 echo -n -e $HEADER_FINAL | cat - $IMAGE_FILENAME > $IMAGE_FILENAME_PREPEND
 
 #checksum
-$CHECKSUMTOOL $IMAGE_FILENAME $IMAGE_FILENAME_PREPEND
+"$CHECKSUMTOOL" "$IMAGE_FILENAME" "$IMAGE_FILENAME_PREPEND" || exit $?
 
 CURR_PATH=$(dirname $IMAGE_FILENAME_PREPEND)
 mv $IMAGE_FILENAME_PREPEND $CURR_PATH/OTA_All.bin
