@@ -33,7 +33,9 @@ SECTIONS
 		. = ALIGN(16);	
 	} > BD_RAM
   
-	.ram_image2.bss :
+	/* NOLOAD keeps this NOBITS: the Wi-Fi firmware archive emits its zeroed
+	 * .FW.ram.bss as PROGBITS. app_start clears the range; ram_2.bin omits it. */
+	.ram_image2.bss (NOLOAD) :
 	{
 		__bss_start__ = .;
 		*(.bss*)
