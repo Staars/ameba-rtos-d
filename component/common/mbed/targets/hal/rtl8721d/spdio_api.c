@@ -566,7 +566,7 @@ BOOL SPDIO_Device_Init(struct spdio_t * obj)
 	//SDIO_CPWM2_Set(CPWM2_INIC_FW_RDY_BIT, ENABLE);
 
 		/* enable the interrupt */
-	InterruptRegister((IRQ_FUN) SPDIO_IRQ_Handler, SDIO_DEVICE_IRQ, (u32) pgSPDIODev, SPDIO_IRQ_PRIORITY);
+	InterruptRegister((IRQ_FUN)(void (*)(void))SPDIO_IRQ_Handler, SDIO_DEVICE_IRQ, (u32) pgSPDIODev, SPDIO_IRQ_PRIORITY);
 	InterruptEn(SDIO_DEVICE_IRQ, SPDIO_IRQ_PRIORITY);
 	HAL_SDIO_WRITE16(REG_SPDIO_CPU_INT_STAS, SDIO_INIT_INT_MASK);	// Clean pending interrupt first
 	HAL_SDIO_WRITE16(REG_SPDIO_CPU_INT_MASK, SDIO_INIT_INT_MASK);

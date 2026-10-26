@@ -148,7 +148,6 @@ void sys_recover_ota_signature_rsip(void)
 	u32 AddrStart, Offset, IsMinus, PhyAddr;
 	u8 Ota2Use = _FALSE;
 	u32 DstAddr;
-	u32 sig[2]={0x35393138,0x31313738};
 	u8 FwSig[8] = {0};
 
 	SYSTEM_DATA* pSysData = (SYSTEM_DATA*)(FLASH_SYSTEM_DATA_ADDR);

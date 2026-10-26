@@ -235,7 +235,11 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __TZ_get_PSP_NS(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
 {
+  /* Keep the vendor stack-pointer clobber; it shapes boot-code frame setup. */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
   __ASM volatile ("MSR psp, %0" : : "r" (topOfProcStack) : "sp");
+#pragma GCC diagnostic pop
 }
 
 
@@ -247,7 +251,11 @@ __attribute__((always_inline)) __STATIC_INLINE void __set_PSP(uint32_t topOfProc
  */
 __attribute__((always_inline)) __STATIC_INLINE void __TZ_set_PSP_NS(uint32_t topOfProcStack)
 {
+  /* Keep the vendor stack-pointer clobber; it shapes boot-code frame setup. */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
   __ASM volatile ("MSR psp_ns, %0" : : "r" (topOfProcStack) : "sp");
+#pragma GCC diagnostic pop
 }
 #endif
 
@@ -297,7 +305,11 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __TZ_get_MSP_NS(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
 {
+  /* Keep the vendor stack-pointer clobber; it shapes boot-code frame setup. */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
   __ASM volatile ("MSR msp, %0" : : "r" (topOfMainStack) : "sp");
+#pragma GCC diagnostic pop
 }
 
 
@@ -309,7 +321,11 @@ __attribute__((always_inline)) __STATIC_INLINE void __set_MSP(uint32_t topOfMain
  */
 __attribute__((always_inline)) __STATIC_INLINE void __TZ_set_MSP_NS(uint32_t topOfMainStack)
 {
+  /* Keep the vendor stack-pointer clobber; it shapes boot-code frame setup. */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated"
   __ASM volatile ("MSR msp_ns, %0" : : "r" (topOfMainStack) : "sp");
+#pragma GCC diagnostic pop
 }
 #endif
 

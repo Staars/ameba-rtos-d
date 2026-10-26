@@ -258,7 +258,7 @@ void os_heap_init(void)
 
 size_t xPortGetTotalHeapSize( void )
 {
-#if CONFIG_DYNAMIC_HEAP_SIZE
+#if defined (CONFIG_DYNAMIC_HEAP_SIZE) && (CONFIG_DYNAMIC_HEAP_SIZE == 1)
 	return configTOTAL_HEAP0_SIZE;
 #else
 	return configTOTAL_HEAP_SIZE;

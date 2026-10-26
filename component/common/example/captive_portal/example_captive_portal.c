@@ -1,3 +1,6 @@
+#include "platform_opts.h"
+#if defined(CONFIG_EXAMPLE_CAPTIVE_PORTAL) && CONFIG_EXAMPLE_CAPTIVE_PORTAL
+
 #include "example_captive_portal.h"
 
 #ifdef CONFIG_READ_FLASH
@@ -1837,3 +1840,5 @@ void example_captive_portal(void)
 	}
 }
 
+
+#endif /* CONFIG_EXAMPLE_CAPTIVE_PORTAL */

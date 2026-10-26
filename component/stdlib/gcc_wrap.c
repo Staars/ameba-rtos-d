@@ -5,6 +5,9 @@
 #if defined(__GNUC__)
 #include "FreeRTOS.h"
 
+extern void *pvPortCalloc(size_t xWantedCnt, size_t xWantedSize);
+extern void *pvPortReAlloc( void *pv,  size_t xWantedSize );
+
 //wrap malloc to pvPortMalloc
 void *__wrap_malloc(size_t size)
 {

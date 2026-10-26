@@ -47,7 +47,7 @@ void us_ticker_init(void)
 	TIM_InitStruct.TIM_UpdateSource = TIM_UpdateSource_Overflow;
 	TIM_InitStruct.TIM_ARRProtection = ENABLE;
 
-	RTIM_TimeBaseInit(TIMM01, &TIM_InitStruct, 0, (IRQ_FUN) _us_ticker_irq_handler, (u32)NULL);
+	RTIM_TimeBaseInit(TIMM01, &TIM_InitStruct, 0, (IRQ_FUN)(void (*)(void))_us_ticker_irq_handler, (u32)NULL);
 	RTIM_Cmd(TIMM01, ENABLE);
 
 	DBG_PRINTF(MODULE_TIMER, LEVEL_INFO, "%s: Timer_Id=%d\n", __FUNCTION__, APP_TIM_ID);

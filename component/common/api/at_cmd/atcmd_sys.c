@@ -1041,9 +1041,9 @@ void fATSc(void *arg)
 				ConfigDebug[LEVEL_WARN] = strtoul(argv[2], &ptmp, 16);
 		}
 	}
-	AT_PRINTK("[ATS!] ConfigDebugErr  = 0x%08X", ConfigDebug[LEVEL_ERROR]);
-	AT_PRINTK("[ATS!] ConfigDebugInfo = 0x%08X", ConfigDebug[LEVEL_INFO]);
-	AT_PRINTK("[ATS!] ConfigDebugWarn = 0x%08X", ConfigDebug[LEVEL_WARN]);
+	AT_PRINTK("[ATS!] ConfigDebugErr  = 0x%08X", (unsigned int)ConfigDebug[LEVEL_ERROR]);
+	AT_PRINTK("[ATS!] ConfigDebugInfo = 0x%08X", (unsigned int)ConfigDebug[LEVEL_INFO]);
+	AT_PRINTK("[ATS!] ConfigDebugWarn = 0x%08X", (unsigned int)ConfigDebug[LEVEL_WARN]);
 #else
 	int argc = 0, config = 0;
 	char *argv[MAX_ARGC] = {0};
@@ -1938,7 +1938,7 @@ void fATSL(void *arg)
 				lock_id = strtoul(argv[2], NULL, 16);
 				pmu_acquire_wakelock(lock_id);
 			}
-			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "[ATSL] wakelock:0x%08x", pmu_get_wakelock_status());			
+			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "[ATSL] wakelock:0x%08x", (unsigned int)pmu_get_wakelock_status());			
 			break;
 		}
 
@@ -1948,12 +1948,12 @@ void fATSL(void *arg)
 				lock_id = strtoul(argv[2], NULL, 16);
 				pmu_release_wakelock(lock_id);
 			}
-			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "[ATSL] wakelock:0x%08x", pmu_get_wakelock_status());
+			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "[ATSL] wakelock:0x%08x", (unsigned int)pmu_get_wakelock_status());
 			break;
 		}
 
 		case '?': // get status
-			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "[ATSL] wakelock:0x%08x", pmu_get_wakelock_status());
+			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "[ATSL] wakelock:0x%08x", (unsigned int)pmu_get_wakelock_status());
 #if (configGENERATE_RUN_TIME_STATS == 1)
 			//pmu_get_wakelock_hold_stats((char *)cBuffer);
 			AT_DBG_MSG(AT_FLAG_OS, AT_DBG_ALWAYS, "%s", cBuffer);

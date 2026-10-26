@@ -117,7 +117,7 @@ void wifi_indication( rtw_event_indicate_t event, char *buf, int buf_len, int fl
 #if(WIFI_INDICATE_MSG==1)			
 			if(buf != NULL)			
 			{
-				if(buf_len == strlen(IW_EXT_STR_FOURWAY_DONE)) {
+				if(buf_len == (int)strlen(IW_EXT_STR_FOURWAY_DONE)) {
 					DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "\n\r%s():%s", __FUNCTION__, buf);
 				}
 			}
@@ -136,7 +136,7 @@ void wifi_indication( rtw_event_indicate_t event, char *buf, int buf_len, int fl
 		case WIFI_EVENT_RECONNECTION_FAIL:
 #if(WIFI_INDICATE_MSG==1)			
 			if(buf != NULL){
-				if(buf_len == strlen(IW_EXT_STR_RECONNECTION_FAIL)) {
+				if(buf_len == (int)strlen(IW_EXT_STR_RECONNECTION_FAIL)) {
 					DBG_PRINTF(MODULE_WLAN, LEVEL_WARN, "\n\r%s", buf);
 				}
 			}

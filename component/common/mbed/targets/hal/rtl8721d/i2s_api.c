@@ -123,7 +123,7 @@ void i2s_init(i2s_t *obj, PinName sck, PinName ws, PinName sd_tx, PinName sd_rx,
 	I2S_StructInit(&I2SInitStruct);
 
 	/*I2S Interrupt Initialization*/
-	InterruptRegister((IRQ_FUN) i2s_isr, I2S0_PCM0_IRQ, NULL, 5);
+	InterruptRegister((IRQ_FUN)(void (*)(void))i2s_isr, I2S0_PCM0_IRQ, NULL, 5);
 	InterruptEn(I2S0_PCM0_IRQ, 5);
 
 	/* enable system pll */

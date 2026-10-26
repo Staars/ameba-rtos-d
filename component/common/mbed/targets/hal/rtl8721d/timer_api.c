@@ -80,7 +80,7 @@ void gtimer_init (gtimer_t *obj, uint32_t tid)
 	TIM_InitStruct.TIM_UpdateSource = TIM_UpdateSource_Overflow;
 	TIM_InitStruct.TIM_ARRProtection = ENABLE;
 	
-	RTIM_TimeBaseInit(TIMx[tid], &TIM_InitStruct, TIMx_irq[tid], (IRQ_FUN) gtimer_timeout_handler, (u32)obj);
+	RTIM_TimeBaseInit(TIMx[tid], &TIM_InitStruct, TIMx_irq[tid], (IRQ_FUN)(void (*)(void))gtimer_timeout_handler, (u32)obj);
 }
 
 /**

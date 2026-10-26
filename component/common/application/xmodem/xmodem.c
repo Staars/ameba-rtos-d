@@ -456,6 +456,7 @@ RxB_again:
 			case XMODEM_ABORT :
 				status = XMODEM_ABORT;
 				rxlen = 0;
+				__attribute__((fallthrough));
                 
 			default :
     			xModemCancel(pXMCtrl);

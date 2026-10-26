@@ -140,6 +140,7 @@ typedef struct
   * @{
   */
 u32 OTA_Change(u32 OTAIdx);
+u32 ota_get_cur_index(void);
 
 void* ota_update_malloc(unsigned int size);
 void ota_update_free(void *buf);

@@ -145,7 +145,9 @@ extern int wifi_set_beacon_mode(int mode);
  * static initialize all values for using fastconnect when log service disabled
  */
 static rtw_network_info_t wifi = {0};
+#if ATCMD_VER == ATVER_2
 static rtw_scan_result_t scan_ap = {0};
+#endif
 static rtw_ap_info_t ap = {0};
 static unsigned char password[65] = {0};
 #ifdef CONFIG_AP_SECURITY
@@ -4394,7 +4396,7 @@ else
 
 else {
 
-    printf("[ATPB] Usage : ATPB=<TYPE 1: client CA ??/privkey:2/server root CA :3/pubkey:4>,[<LENGTH>,<CRT>]");
+    printf("[ATPB] Usage : ATPB=<TYPE 1: client CA ?\?/privkey:2/server root CA :3/pubkey:4>,[<LENGTH>,<CRT>]");
 
 }
     at_printf("%sOK\r\n", "+SSLCRET:");
@@ -4649,7 +4651,7 @@ log_item_t at_wifi_items[ ] = {
 	{"ATW9", fATW9,{NULL,NULL}}, //Set auto reconnect mode
 #endif
 #ifdef CONFIG_AP_SECURITY
-	{"ATW7", fATW7,},
+	{"ATW7", fATW7,{NULL,NULL}},
 #endif	
 	{"ATWA", fATWA,{NULL,NULL}},
 #ifdef  CONFIG_CONCURRENT_MODE

@@ -3708,6 +3708,7 @@ int wifi_restart_ap(
 									strlen((char*)setting.password),
 									setting.key_idx,
 									NULL);	
+		(void) ret;
 #if defined(CONFIG_DHCP_CLIENT) && CONFIG_DHCP_CLIENT
 		if(ret == RTW_SUCCESS) {
 			/* Start DHCPClient */
@@ -4514,7 +4515,7 @@ void wifi_scan_country_code_and_set_channel_plan(void)
 	wext_auto_set_adaptivity(ENABLE); 
 	wifi_scan_networks_with_extended_countryinfo();
 	DBG_PRINTF(MODULE_WLAN, LEVEL_INFO, "Scanned country code is %c%c\n", read_country_code[0], read_country_code[1]);
-	wifi_set_channel_plan_by_country_code(read_country_code);
+	wifi_set_channel_plan_by_country_code((unsigned char *)read_country_code);
 }
 
 void wifi_set_channel_plan_by_country_code(unsigned char* country_code)
@@ -4569,9 +4570,7 @@ void wifi_scan_networks_with_extended_countryinfo(void)
 		char country_code[2]={0}, null_country_code[2]={0};
 
 		while(plen < scan_buf.buf_len){
-			int len, rssi, ssid_len, i, security_mode;
-			int wps_password_id;
-			char *mac, *ssid;
+			int len, i;
 			// len
 			len = (int)*(scan_buf.buf + plen);
 			// check end

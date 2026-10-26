@@ -520,7 +520,7 @@ typedef struct {
     rtw_country_code_t rtw_country_code;
 } CountryMap;
 
-static CountryMap country_map[] = {
+static const CountryMap country_map[] = {
     {"DZ", RTW_COUNTRY_DZ},
     {"AU", RTW_COUNTRY_AU},
     {"NZ", RTW_COUNTRY_NZ},

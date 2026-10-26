@@ -117,7 +117,7 @@ void captouch_init (captouch_t *obj)
 	CapTouch_INTConfig(CAPTOUCH_DEV, BIT_CT_ALL_INT_EN, ENABLE);
 
 	/* Register interrupt Callback function */
-	InterruptRegister((IRQ_FUN) captouch_irq_handler, CTOUCH_IRQ, (u32)obj, 5);
+	InterruptRegister((IRQ_FUN)(void (*)(void))captouch_irq_handler, CTOUCH_IRQ, (u32)obj, 5);
 	InterruptEn(CTOUCH_IRQ, 5);
 }
 

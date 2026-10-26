@@ -372,7 +372,7 @@ u32 rtc_set_alarm(alarm_t *alrm, alarm_irq_handler alarmHandler)
 	RTC_SetAlarm(RTC_Format_BIN, &RTC_AlarmStruct_temp);
 
 	RTC_AlarmCmd(ENABLE);
-	InterruptRegister((IRQ_FUN)rtc_alarm_intr_handler, RTC_IRQ, (u32)alrm, 5);
+	InterruptRegister((IRQ_FUN)(void (*)(void))rtc_alarm_intr_handler, RTC_IRQ, (u32)alrm, 5);
 	InterruptEn(RTC_IRQ, 5);
 
 	return _TRUE;

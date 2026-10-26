@@ -27,6 +27,9 @@ SECTIONS
 		/* image1 text */
 		*(.boot.ram.text*)    
 		*(.boot.rodata*)
+		/* Empty linker-generated sections; placed here so ld does not move orphans. */
+		*(.glue_7) *(.glue_7t) *(.vfp11_veneer) *(.v4_bx)
+		*(.iplt) *(.igot.plt) *(.rel.dyn)
 	} > BOOTLOADER_RAM_S
 
 	.ram_image1.data . :

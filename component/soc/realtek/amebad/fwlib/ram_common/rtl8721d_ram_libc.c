@@ -220,7 +220,7 @@ int _rtl_sprintf(char* str, const char* fmt, ...)
 		else
 			fmt1 ++;
 		
-		while(isdigit(*fmt1)){
+		while(isdigit((unsigned char)*fmt1)){
 			fmt1 ++;
 		}
 		
@@ -259,7 +259,7 @@ int _rtl_printf(const char* fmt, ...)
 		else
 			fmt1 ++;
 		
-		while(isdigit(*fmt1)){
+		while(isdigit((unsigned char)*fmt1)){
 			fmt1 ++;
 		}
 		
@@ -305,7 +305,7 @@ int _rtl_sscanf(const char *buf, const char *fmt, ...)
 		if(*fmt1 == '*')
 			continue;
 		
-		while(isdigit(*fmt1)){
+		while(isdigit((unsigned char)*fmt1)){
 			fmt1 ++;
 		}
 

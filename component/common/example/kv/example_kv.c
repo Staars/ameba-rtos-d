@@ -1,3 +1,6 @@
+#include "platform_opts.h"
+#if defined(CONFIG_EXAMPLE_KV) && CONFIG_EXAMPLE_KV
+
 #include "kv.h"
 #include "example_kv.h"
 #include "lfs.h"
@@ -140,3 +143,5 @@ void example_kv(void)
 		printf("\n\r%s rtos_task_create(example_kv_thread) failed", __FUNCTION__);
 	}
 }
+
+#endif /* CONFIG_EXAMPLE_KV */

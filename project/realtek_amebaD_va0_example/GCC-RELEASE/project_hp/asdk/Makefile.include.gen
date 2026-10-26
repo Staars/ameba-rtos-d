@@ -538,7 +538,7 @@ NETWORK_RENAME_CODE2SRAM: CORE_TARGETS
 COPY_RAM_OBJS:
 	echo "=============================================================" \
 	       >> $(ROOTDIR)/ram_size.txt;\
-	$(CC_SIZE) -t $(OBJS) >> $(ROOTDIR)/ram_size.txt;\
+	$(if $(strip $(OBJS)),$(CC_SIZE) -t $(OBJS) >> $(ROOTDIR)/ram_size.txt;)\
 	for i in  $(OBJS) $(ASM_OBJS); do \
 		echo $$i >> $(ROOTDIR)/obj_list.txt;\
 		 $(COPY) -f  $$i $(BUILD_TARGET_RAM_FOLDER);\
@@ -561,7 +561,7 @@ CLEAN_OBJS:
 COPY_ROM_OBJS:
 	echo "=============================================================" \
 	       >> $(ROOTDIR)/rom_size.txt;\
-	$(CC_SIZE) -t $(OBJS) $(ASM_OBJS) >> $(ROOTDIR)/rom_size.txt;\
+	$(if $(strip $(OBJS) $(ASM_OBJS)),$(CC_SIZE) -t $(OBJS) $(ASM_OBJS) >> $(ROOTDIR)/rom_size.txt;)\
 	for i in  $(OBJS) $(ASM_OBJS); do \
 		 $(COPY) -f  $$i $(BUILD_TARGET_ROM_FOLDER);\
 		done \

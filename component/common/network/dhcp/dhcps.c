@@ -2,6 +2,8 @@
 #include "dhcps.h"
 #include "tcpip.h"
 #include "wifi_constants.h"
+
+extern int netif_get_idx(struct netif *pnetif);
 extern rtw_mode_t wifi_mode;
 //static struct dhcp_server_state dhcp_server_state_machine;
 static uint8_t dhcp_server_state_machine = DHCP_SERVER_STATE_IDLE;

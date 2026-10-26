@@ -326,7 +326,7 @@ static u32 ssi_dma_send(void *Adapter, u8 *pTxData, u32 Length)
 	SSI_SetDmaEnable(ssi_adapter->spi_dev, ENABLE, BIT_SHIFT_DMACR_TDMAE);
 
 	ret = SSI_TXGDMA_Init(ssi_adapter->Index, &ssi_adapter->SSITxGdmaInitStruct,
-		ssi_adapter, (IRQ_FUN) ssi_dma_tx_irq,
+		ssi_adapter, (IRQ_FUN)(void (*)(void))ssi_dma_tx_irq,
 		pTxData, Length);
 
 	NVIC_SetPriority(GDMA_GetIrqNum(0, ssi_adapter->SSITxGdmaInitStruct.GDMA_ChNum), 10);		
@@ -351,7 +351,7 @@ static u32 ssi_dma_recv(void *Adapter, u8  *pRxData, u32 Length)
 	ssi_adapter->RxData = (void*)pRxData;
 
 	ret = SSI_RXGDMA_Init(ssi_adapter->Index, &ssi_adapter->SSIRxGdmaInitStruct,
-		ssi_adapter, (IRQ_FUN) ssi_dma_rx_irq,
+		ssi_adapter, (IRQ_FUN)(void (*)(void))ssi_dma_rx_irq,
 		pRxData, Length);
 
 	NVIC_SetPriority(GDMA_GetIrqNum(0, ssi_adapter->SSIRxGdmaInitStruct.GDMA_ChNum), 11);	

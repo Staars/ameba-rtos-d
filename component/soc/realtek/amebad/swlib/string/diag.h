@@ -133,6 +133,13 @@ extern u32 ConfigDebug[];
 		DiagPrintf("["#MODULE"-"#LEVEL"]:"pFormat, ##__VA_ARGS__);\
 } while (0)
 
+/* Compiled-out diagnostics remain one statement and keep their arguments referenced;
+ * the constant branch is removed, so no call or format string reaches the image. */
+#define AMEBAD_DBG_PRINTF_OFF(...) do {\
+	if (0)\
+		DiagPrintf(__VA_ARGS__);\
+} while (0)
+
 #define AMEBAD_DBG_PRINTF_SELECT(LEVEL) AMEBAD_DBG_PRINTF_SELECT_INNER(LEVEL)
 #define AMEBAD_DBG_PRINTF_SELECT_INNER(LEVEL) AMEBAD_DBG_PRINTF_##LEVEL
 
@@ -143,25 +150,25 @@ extern u32 ConfigDebug[];
 #define AMEBAD_DBG_PRINTF_LEVEL_ERROR(MODULE, pFormat, ...) \
 	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_ERROR, pFormat, ##__VA_ARGS__)
 #else
-#define AMEBAD_DBG_PRINTF_LEVEL_ERROR(...)
+#define AMEBAD_DBG_PRINTF_LEVEL_ERROR(MODULE, ...) AMEBAD_DBG_PRINTF_OFF(__VA_ARGS__)
 #endif
 #if AMEBAD_LOG_LEVEL_MAX >= 1
 #define AMEBAD_DBG_PRINTF_LEVEL_WARN(MODULE, pFormat, ...) \
 	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_WARN, pFormat, ##__VA_ARGS__)
 #else
-#define AMEBAD_DBG_PRINTF_LEVEL_WARN(...)
+#define AMEBAD_DBG_PRINTF_LEVEL_WARN(MODULE, ...) AMEBAD_DBG_PRINTF_OFF(__VA_ARGS__)
 #endif
 #if AMEBAD_LOG_LEVEL_MAX >= 2
 #define AMEBAD_DBG_PRINTF_LEVEL_INFO(MODULE, pFormat, ...) \
 	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_INFO, pFormat, ##__VA_ARGS__)
 #else
-#define AMEBAD_DBG_PRINTF_LEVEL_INFO(...)
+#define AMEBAD_DBG_PRINTF_LEVEL_INFO(MODULE, ...) AMEBAD_DBG_PRINTF_OFF(__VA_ARGS__)
 #endif
 #if AMEBAD_LOG_LEVEL_MAX >= 3
 #define AMEBAD_DBG_PRINTF_LEVEL_TRACE(MODULE, pFormat, ...) \
 	AMEBAD_DBG_PRINTF_IMPL(MODULE, LEVEL_TRACE, pFormat, ##__VA_ARGS__)
 #else
-#define AMEBAD_DBG_PRINTF_LEVEL_TRACE(...)
+#define AMEBAD_DBG_PRINTF_LEVEL_TRACE(MODULE, ...) AMEBAD_DBG_PRINTF_OFF(__VA_ARGS__)
 #endif
 #define DBG_PRINTF(MODULE, LEVEL, pFormat, ...) \
 	AMEBAD_DBG_PRINTF_SELECT(LEVEL)(MODULE, pFormat, ##__VA_ARGS__)
@@ -188,8 +195,8 @@ extern u32 ConfigDebug[];
 }while(0)
 
 #else   // unranked ROM diagnostics are retained only at debug/verbose
-#define DBG_8195A(...)
-#define MONITOR_LOG(...)
+#define DBG_8195A(...) AMEBAD_DBG_PRINTF_OFF(__VA_ARGS__)
+#define MONITOR_LOG(...) AMEBAD_DBG_PRINTF_OFF(__VA_ARGS__)
 #endif
 
 /** End of Platform_Debug_Log_Trace_Functions_And_Macro

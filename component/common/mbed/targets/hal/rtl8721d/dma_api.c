@@ -58,13 +58,13 @@ void dma_memcpy_init(gdma_t *dma_obj, dma_irq_handler handler, uint32_t id)
 	u8 ch_num;
 
 	dma_obj->index = 0;
-	ch_num = GDMA_ChnlAlloc(dma_obj->index, (IRQ_FUN) dma_memcpy_int, (u32)dma_obj, 10);
+	ch_num = GDMA_ChnlAlloc(dma_obj->index, (IRQ_FUN)(void (*)(void))dma_memcpy_int, (u32)dma_obj, 10);
 	if (0xFF == ch_num) {        
 		DBG_8195A("%s: Cannot allocate a GDMA Channel\n", __FUNCTION__);
 		return;
 	}
 
-	dma_obj->user_cb = (IRQ_FUN)handler;
+	dma_obj->user_cb = (IRQ_FUN)(void (*)(void))handler;
 	dma_obj->user_cb_data = id;
 	dma_obj->ch_num = ch_num;
 }
